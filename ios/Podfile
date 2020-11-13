@@ -10,6 +10,10 @@ target 'RentalCrm' do
 
   pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
 
+  pod 'ReactNativeART', :path => '../node_modules/@react-native-community/art'
+
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
   target 'RentalCrmTests' do
     inherit! :complete
     # Pods for testing
