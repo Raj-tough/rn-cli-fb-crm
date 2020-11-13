@@ -28,52 +28,6 @@ const AddCustomerScreen = () => {
   };
   return (
     <View style={{flex: 1, alignItems: 'center'}}>
-      <View>
-        <DropDownPicker
-          items={[
-            {
-              label: 'USA',
-              value: 'usa',
-            },
-            {
-              label: 'UK',
-              value: 'uk',
-            },
-          ]}
-          cbForCreateNewCategory={cbForCreateNewCAtegory}
-          placeholder="Select a category"
-          searchable={true}
-          searchablePlaceholder="Search category"
-          searchablePlaceholderTextColor="gray"
-          seachableStyle={{}}
-          searchableError={() => (
-            <View style={{alignItems: 'center'}}>
-              <View>
-                <Text>Not Found !</Text>
-              </View>
-            </View>
-          )}
-          containerStyle={{
-            height: 50,
-            width: 0.9 * width,
-            alignSelf: 'center',
-            marginTop: 0.02 * height,
-          }}
-          dropDownMaxHeight={0.4 * height}
-          style={{backgroundColor: '#fafafa', elevation: 5}}
-          itemStyle={{
-            justifyContent: 'flex-start',
-            paddingLeft: 0.02 * width,
-            borderBottomWidth: 1,
-            borderBottomColor: 'lightgrey',
-          }}
-          dropDownStyle={{
-            backgroundColor: '#fafafa',
-            elevation: 5,
-          }}
-          onChangeItem={(item) => setCategory(item)}
-        />
-      </View>
       <ScrollView style={{width: '100%'}}>
         <KeyboardAvoidingView behavior="position" keyboardVerticalOffset={150}>
           <View

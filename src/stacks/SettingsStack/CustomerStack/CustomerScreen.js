@@ -6,6 +6,7 @@ import {
   Dimensions,
   TextInput,
   ScrollView,
+  TouchableOpacity,
   FlatList,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -18,12 +19,29 @@ const height = Dimensions.get('window').height;
 const CustomerScreen = ({navigation}) => {
   const [loading, setLoading] = useState(true);
   const renderItem = ({item}) => <CustomerCard />;
-  const data = [{id: 1}, {id: 2}, {id: 3}, {id: 4}];
+  const data = [
+    {id: 1},
+    {id: 2},
+    {id: 3},
+    {id: 4},
+    {id: 1},
+    {id: 2},
+    {id: 3},
+    {id: 4},
+    {id: 1},
+    {id: 2},
+    {id: 3},
+    {id: 4},
+    {id: 1},
+    {id: 2},
+    {id: 3},
+    {id: 4},
+  ];
 
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
-    }, 5000);
+    }, 2000);
   }, []);
   return (
     <View style={{flex: 1, alignItems: 'center'}}>
@@ -54,82 +72,63 @@ const CustomerScreen = ({navigation}) => {
           }}
         />
       </View>
-
-      <ScrollView style={{width: width}} showsVerticalScrollIndicator={false}>
-        <View style={{alignItems: 'center', marginTop: 0.01 * height}}>
-          {loading ? (
-            <View style={{width: width}}>
-              <SkeletonPlaceholder>
-                <View style={{alignItems: 'center'}}>
-                  <View
-                    style={{
-                      width: width,
-                      height: 0.07 * height,
-                      borderRadius: 4,
-                      marginTop: 5,
-                    }}
-                  />
-                  <View
-                    style={{
-                      width: width,
-                      height: 0.07 * height,
-                      borderRadius: 4,
-                      marginTop: 5,
-                    }}
-                  />
-                  <View
-                    style={{
-                      width: width,
-                      height: 0.07 * height,
-                      borderRadius: 4,
-                      marginTop: 5,
-                    }}
-                  />
-                  <View
-                    style={{
-                      width: width,
-                      height: 0.07 * height,
-                      borderRadius: 4,
-                      marginTop: 5,
-                    }}
-                  />
-                  <View
-                    style={{
-                      width: width,
-                      height: 0.07 * height,
-                      borderRadius: 4,
-                      marginTop: 5,
-                    }}
-                  />
-                </View>
-              </SkeletonPlaceholder>
-            </View>
-          ) : (
-            <FlatList
-              data={data}
-              renderItem={renderItem}
-              keyExtractor={(item) => item.id}
-            />
-          )}
-        </View>
-      </ScrollView>
-
-      <Pressable
-        onPress={() => navigation.navigate('AddCustomerScreen')}
-        android_ripple={{color: 'skyblue', borderless: true, radius: 30}}
-        style={{
-          position: 'absolute',
-          bottom: 25,
-          right: 25,
-          height: 60,
-          width: 60,
-          backgroundColor: 'lightblue',
-          borderRadius: 35,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-        <Text style={{fontSize: 16}}>add</Text>
-      </Pressable>
+      <View style={{alignItems: 'center', marginTop: 0.01 * height}}>
+        {loading ? (
+          <View style={{width: width}}>
+            <SkeletonPlaceholder>
+              <View style={{alignItems: 'center'}}>
+                <View
+                  style={{
+                    width: width,
+                    height: 0.07 * height,
+                    borderRadius: 4,
+                    marginTop: 5,
+                  }}
+                />
+                <View
+                  style={{
+                    width: width,
+                    height: 0.07 * height,
+                    borderRadius: 4,
+                    marginTop: 5,
+                  }}
+                />
+                <View
+                  style={{
+                    width: width,
+                    height: 0.07 * height,
+                    borderRadius: 4,
+                    marginTop: 5,
+                  }}
+                />
+                <View
+                  style={{
+                    width: width,
+                    height: 0.07 * height,
+                    borderRadius: 4,
+                    marginTop: 5,
+                  }}
+                />
+                <View
+                  style={{
+                    width: width,
+                    height: 0.07 * height,
+                    borderRadius: 4,
+                    marginTop: 5,
+                  }}
+                />
+              </View>
+            </SkeletonPlaceholder>
+          </View>
+        ) : (
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            data={data}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.id}
+          />
+        )}
+      </View>
     </View>
   );
 };
