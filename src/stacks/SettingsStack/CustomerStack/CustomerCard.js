@@ -49,7 +49,9 @@ const CustomerCard = (props) => {
         }}>
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <View style={{marginLeft: 0.05 * width, flexDirection: 'row'}}>
-            <Text>Customer name - </Text>
+            <Text>
+              Customer name {'   '} - {'   '}
+            </Text>
             <TouchableOpacity onPress={() => dial('8870347755')}>
               <Text style={{color: 'dodgerblue'}}>8870347755</Text>
             </TouchableOpacity>
@@ -89,7 +91,12 @@ const CustomerCard = (props) => {
           <View style={{paddingHorizontal: 0.01 * height, marginVertical: 5}}>
             <Text>Address - </Text>
           </View>
-          <View style={{paddingHorizontal: 0.01 * height, marginVertical: 5}}>
+          <View
+            style={{
+              paddingHorizontal: 0.01 * height,
+              marginVertical: 5,
+              marginBottom: 15,
+            }}>
             <Text>Age - </Text>
           </View>
         </View>

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import CustomerCard from './CustomerCard';
-import SkeletonContent from 'react-native-skeleton-content';
+import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -19,6 +19,12 @@ const CustomerScreen = ({navigation}) => {
   const [loading, setLoading] = useState(true);
   const renderItem = ({item}) => <CustomerCard />;
   const data = [{id: 1}, {id: 2}, {id: 3}, {id: 4}];
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 5000);
+  }, []);
   return (
     <View style={{flex: 1, alignItems: 'center'}}>
       <View
@@ -52,13 +58,52 @@ const CustomerScreen = ({navigation}) => {
       <ScrollView style={{width: width}} showsVerticalScrollIndicator={false}>
         <View style={{alignItems: 'center', marginTop: 0.01 * height}}>
           {loading ? (
-            <SkeletonContent
-              containerStyle={{flex: 1, width: 300}}
-              isLoading={true}
-              layout={[
-                {key: 'someId', width: 220, height: 20, marginBottom: 6},
-                {key: 'someOtherId', width: 180, height: 20, marginBottom: 6},
-              ]}></SkeletonContent>
+            <View style={{width: width}}>
+              <SkeletonPlaceholder>
+                <View style={{alignItems: 'center'}}>
+                  <View
+                    style={{
+                      width: width,
+                      height: 0.07 * height,
+                      borderRadius: 4,
+                      marginTop: 5,
+                    }}
+                  />
+                  <View
+                    style={{
+                      width: width,
+                      height: 0.07 * height,
+                      borderRadius: 4,
+                      marginTop: 5,
+                    }}
+                  />
+                  <View
+                    style={{
+                      width: width,
+                      height: 0.07 * height,
+                      borderRadius: 4,
+                      marginTop: 5,
+                    }}
+                  />
+                  <View
+                    style={{
+                      width: width,
+                      height: 0.07 * height,
+                      borderRadius: 4,
+                      marginTop: 5,
+                    }}
+                  />
+                  <View
+                    style={{
+                      width: width,
+                      height: 0.07 * height,
+                      borderRadius: 4,
+                      marginTop: 5,
+                    }}
+                  />
+                </View>
+              </SkeletonPlaceholder>
+            </View>
           ) : (
             <FlatList
               data={data}
