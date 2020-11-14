@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   TextInput,
   Dimensions,
+  Pressable,
 } from 'react-native';
 import {
   createStackNavigator,
@@ -12,6 +13,7 @@ import {
 } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/Ionicons';
 import BillScreen from './BillScreen';
+import AddBillScreen from './AddBillScreen';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -34,31 +36,30 @@ const BillStackScreen = ({navigation}) => {
           // headerTitleAlign: 'center',
           headerRight: () => {
             return (
-              <View
+              <Pressable
+                android_ripple={{color: 'lightgrey'}}
+                onPress={() => navigation.navigate('AddBillScreen')}
                 style={{
-                  width: 0.6 * width,
+                  width: 0.25 * width,
                   height: 0.06 * height,
                   borderRadius: 3,
                   flexDirection: 'row',
                   alignItems: 'center',
-                  marginRight: 0.01 * width,
+                  justifyContent: 'center',
+                  // marginRight: 0.01 * width,
                 }}>
-                <Icon
-                  style={{marginLeft: 0.05 * width}}
-                  name="search-outline"
-                  color={'black'}
-                  size={20}
-                />
-                <TextInput
-                  placeholder="Search Bill"
-                  style={{
-                    width: 0.45 * width,
-                    marginLeft: 0.03 * width,
-                  }}
-                />
-              </View>
+                <Text style={{color: 'dodgerblue'}}> + Add Bill</Text>
+              </Pressable>
             );
           },
+        }}
+      />
+      <BillStack.Screen
+        name="AddBillScreen"
+        component={AddBillScreen}
+        options={{
+          headerShown: true,
+          title: 'Add Bill',
         }}
       />
     </BillStack.Navigator>

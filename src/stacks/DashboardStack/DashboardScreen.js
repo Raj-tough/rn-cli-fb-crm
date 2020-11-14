@@ -1,131 +1,156 @@
 import React from 'react';
 import {View, Text, Dimensions, Pressable} from 'react-native';
-import {
-  LineChart,
-  BarChart,
-  PieChart,
-  ProgressChart,
-  ContributionGraph,
-  StackedBarChart,
-} from 'react-native-chart-kit';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
 const DashboardScreen = ({navigation}) => {
   return (
-    <View style={{flex: 1}}>
-      <View
-        style={{
-          marginTop: 0.05 * height,
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-around',
-        }}>
-        <Pressable
-          onPress={() => navigation.navigate('Bill')}
-          android_ripple={{color: 'lightgrey'}}
-          style={{
-            height: 0.1 * height,
-            width: 0.4 * width,
-            borderRadius: 10,
-            backgroundColor: 'lightgreen',
-            alignItems: 'center',
-          }}>
-          <Text style={{marginTop: 10, marginBottom: 5}}>Bills open</Text>
-          <Text style={{fontSize: 25, fontWeight: 'bold'}}> 2</Text>
-        </Pressable>
-        <Pressable
-          android_ripple={{color: 'lightgrey'}}
-          style={{
-            height: 0.1 * height,
-            width: 0.4 * width,
-            borderRadius: 10,
-            backgroundColor: 'tomato',
-            alignItems: 'center',
-          }}>
-          <Text style={{marginTop: 10, marginBottom: 5}}>Bills closed</Text>
-          <Text style={{fontSize: 25, fontWeight: 'bold'}}> 2</Text>
-        </Pressable>
-      </View>
-      <View
-        style={{
-          marginTop: 0.05 * height,
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-around',
-        }}>
-        <Pressable
-          android_ripple={{color: 'lightgrey'}}
-          style={{
-            height: 0.1 * height,
-            width: 0.4 * width,
-            borderRadius: 10,
-            backgroundColor: 'orange',
-            alignItems: 'center',
-          }}>
-          <Text style={{marginTop: 10, marginBottom: 5}}>Amount Pending</Text>
-          <Text style={{fontSize: 25, fontWeight: 'bold'}}> 2</Text>
-        </Pressable>
-        <Pressable
-          android_ripple={{color: 'lightgrey', borderless: false}}
-          style={{
-            height: 0.1 * height,
-            width: 0.4 * width,
-            borderRadius: 10,
-            backgroundColor: 'red',
-            alignItems: 'center',
-          }}>
-          <Text style={{marginTop: 10, marginBottom: 5}}>Bills danger</Text>
-          <Text style={{fontSize: 25, fontWeight: 'bold'}}> 2</Text>
-        </Pressable>
-      </View>
+    <View style={{flex: 1, justifyContent: 'space-between'}}>
       <View>
-        <Text>Bezier Line Chart</Text>
-        <LineChart
-          data={{
-            labels: ['January', 'February', 'March', 'April', 'May', 'June'],
-            datasets: [
-              {
-                data: [
-                  Math.random() * 100,
-                  Math.random() * 100,
-                  Math.random() * 100,
-                  Math.random() * 100,
-                  Math.random() * 100,
-                  Math.random() * 100,
-                ],
-              },
-            ],
-          }}
-          width={Dimensions.get('window').width} // from react-native
-          height={220}
-          yAxisLabel="$"
-          yAxisSuffix="k"
-          yAxisInterval={1} // optional, defaults to 1
-          chartConfig={{
-            backgroundColor: '#e26a00',
-            backgroundGradientFrom: '#fb8c00',
-            backgroundGradientTo: '#ffa726',
-            decimalPlaces: 2, // optional, defaults to 2dp
-            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-            style: {
-              borderRadius: 16,
-            },
-            propsForDots: {
-              r: '6',
-              strokeWidth: '2',
-              stroke: '#ffa726',
-            },
-          }}
-          bezier
+        <View
           style={{
-            marginVertical: 8,
-            borderRadius: 16,
-          }}
-        />
+            alignItems: 'center',
+            marginTop: 0.02 * height,
+            backgroundColor: 'aquamarine',
+            height: 0.07 * height,
+            width: 0.7 * width,
+            alignSelf: 'center',
+            justifyContent: 'center',
+          }}>
+          <Text style={{color: 'green', fontSize: 20, fontWeight: 'bold'}}>
+            SRK CENTERING RENTALS
+          </Text>
+        </View>
+        <View
+          style={{
+            marginTop: 0.03 * height,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-around',
+          }}>
+          <Pressable
+            onPress={() => navigation.navigate('Bill')}
+            android_ripple={{color: 'lightgrey'}}
+            style={{
+              height: 0.1 * height,
+              width: 0.4 * width,
+              elevation: 5,
+              borderRadius: 10,
+              backgroundColor: 'lightgreen',
+              alignItems: 'center',
+            }}>
+            <Text style={{marginTop: 10, marginBottom: 5}}>
+              Total opened bills
+            </Text>
+            <Text style={{fontSize: 25, fontWeight: 'bold'}}> 2</Text>
+          </Pressable>
+          <Pressable
+            android_ripple={{color: 'lightgrey'}}
+            style={{
+              height: 0.1 * height,
+              width: 0.4 * width,
+              elevation: 5,
+              borderRadius: 10,
+              backgroundColor: 'tomato',
+              alignItems: 'center',
+            }}>
+            <Text style={{marginTop: 10, marginBottom: 5}}>
+              Total closed bills
+            </Text>
+            <Text style={{fontSize: 25, fontWeight: 'bold'}}> 2</Text>
+          </Pressable>
+        </View>
+        <View
+          style={{
+            marginTop: 0.05 * height,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-around',
+          }}>
+          <Pressable
+            onPress={() => navigation.navigate('Bill')}
+            android_ripple={{color: 'lightgrey'}}
+            style={{
+              height: 0.1 * height,
+              width: 0.4 * width,
+              elevation: 5,
+              borderRadius: 10,
+              backgroundColor: 'lightgreen',
+              alignItems: 'center',
+            }}>
+            <Text style={{marginTop: 10, marginBottom: 5}}>
+              Bills opened this month
+            </Text>
+            <Text style={{fontSize: 25, fontWeight: 'bold'}}> 2</Text>
+          </Pressable>
+          <Pressable
+            android_ripple={{color: 'lightgrey'}}
+            style={{
+              height: 0.1 * height,
+              width: 0.4 * width,
+              elevation: 5,
+              borderRadius: 10,
+              backgroundColor: 'tomato',
+              alignItems: 'center',
+            }}>
+            <Text style={{marginTop: 10, marginBottom: 5}}>
+              Bills closed this month
+            </Text>
+            <Text style={{fontSize: 25, fontWeight: 'bold'}}> 2</Text>
+          </Pressable>
+        </View>
+        <View
+          style={{
+            marginTop: 0.05 * height,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-around',
+          }}>
+          <Pressable
+            android_ripple={{color: 'lightgrey'}}
+            style={{
+              height: 0.1 * height,
+              width: 0.4 * width,
+              elevation: 5,
+              borderRadius: 10,
+              backgroundColor: 'orange',
+              alignItems: 'center',
+            }}>
+            <Text style={{marginTop: 10, marginBottom: 5}}>Amount Pending</Text>
+            <Text style={{fontSize: 25, fontWeight: 'bold'}}> 2</Text>
+          </Pressable>
+          <Pressable
+            android_ripple={{color: 'lightgrey', borderless: false}}
+            style={{
+              height: 0.1 * height,
+              width: 0.4 * width,
+              elevation: 5,
+              borderRadius: 10,
+              backgroundColor: 'red',
+              alignItems: 'center',
+            }}>
+            <Text style={{marginTop: 10, marginBottom: 5}}>Bills danger</Text>
+            <Text style={{fontSize: 25, fontWeight: 'bold'}}> 2</Text>
+          </Pressable>
+        </View>
       </View>
+      {/* <Pressable
+        android_ripple={{color: 'lightgrey', borderless: false}}
+        onPress={() => navigation.navigate('AddBillScreen')}
+        style={{
+          width: 0.7 * width,
+          height: 0.06 * height,
+          justifyContent: 'center',
+          alignSelf: 'center',
+          alignItems: 'center',
+          marginVertical: 0.02 * height,
+          backgroundColor: 'lightblue',
+        }}>
+        <Text style={{color: 'dodgerblue', fontSize: 18, fontWeight: 'bold'}}>
+          + NEW BILL
+        </Text>
+      </Pressable> */}
     </View>
   );
 };

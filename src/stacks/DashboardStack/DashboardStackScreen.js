@@ -37,14 +37,14 @@ const DashboardStackScreen = ({navigation}) => {
                   width: 0.6 * width,
                   height: 0.06 * height,
                   borderRadius: 3,
-                  flexDirection: 'row',
+                  flexDirection: 'row-reverse',
                   alignItems: 'center',
                   marginRight: 0.01 * width,
                   //   borderBottomColor: 'lightgrey',
                   //   borderBottomWidth: 1,
                 }}>
                 <Icon
-                  style={{marginLeft: 0.05 * width}}
+                  style={{marginRight: 0.05 * width}}
                   name="search-outline"
                   color={'black'}
                   size={20}
