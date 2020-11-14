@@ -5,25 +5,18 @@ import {
   Pressable,
   Dimensions,
   TextInput,
-  TouchableOpacity,
   KeyboardAvoidingView,
   ScrollView,
   ToastAndroid,
   Modal,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-// import DropDownPicker from 'react-native-dropdown-picker';
-import DropDownPicker from '../../../components/DropdownPicker';
-import FeatherIcon from 'react-native-vector-icons/Feather';
-import RNPickerSelect from 'react-native-picker-select';
-import {setEnabled} from 'react-native/Libraries/Performance/Systrace';
 import {Bars} from 'react-native-loader';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
 const AddCustomerScreen = () => {
-  const [category, setCategory] = useState('');
   const [opened, setOpened] = useState(false);
   const [proofType, setProofType] = useState('Select proof type');
   const [cusName, setCusName] = useState('');
@@ -36,12 +29,7 @@ const AddCustomerScreen = () => {
   const [cusAddrError, setCusAddrError] = useState(false);
   const [cusProofTypeError, setCusProofTypeError] = useState(false);
   const [cusProodIdError, setCusProofIdError] = useState(false);
-  const [enabled, SetEnabled] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  const cbForCreateNewCAtegory = () => {
-    console.log('create new category invoked');
-  };
 
   const submitHandler = () => {
     if (
@@ -56,15 +44,19 @@ const AddCustomerScreen = () => {
       setLoading(true);
       setTimeout(() => {
         setLoading(false);
-        showToast();
+        showToast('Customer added successfully!');
+        clearForm();
       }, 3000);
-      clearForm();
+    } else {
+      showToast('Please fill required fields!');
     }
     cusName === '' ? setCusNameError(true) : setCusNameError(false);
     cusPhno === '' ? setCusPhnoError(true) : setCusPhnoError(false);
-    cusPhno.length < 10 ? setPhNoDigitError(true) : setPhNoDigitError(false);
     cusAddr === '' ? setCusAddrError(true) : setCusAddrError(false);
     cusProodId === '' ? setCusProofIdError(true) : setCusProofIdError(false);
+    cusPhno !== '' && cusPhno.length < 10
+      ? setPhNoDigitError(true)
+      : setPhNoDigitError(false);
     proofType === 'Select proof type'
       ? setCusProofTypeError(true)
       : setCusProofTypeError(false);
@@ -78,8 +70,8 @@ const AddCustomerScreen = () => {
     setProofType('Select proof type');
   };
 
-  const showToast = () => {
-    ToastAndroid.show('Customer added successfully!', ToastAndroid.SHORT);
+  const showToast = (msg) => {
+    ToastAndroid.show(msg, ToastAndroid.SHORT);
   };
 
   return (

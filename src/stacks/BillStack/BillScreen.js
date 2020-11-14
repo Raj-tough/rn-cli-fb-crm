@@ -23,23 +23,23 @@ const BillScreen = ({route, navigation, filterName}) => {
 
   const data = [
     {id: 1},
-    {id: 2},
+    {id: 2, open: true},
     {id: 3},
     {id: 4},
-    {id: 1},
-    {id: 2},
-    {id: 3},
-    {id: 4},
-    {id: 1},
-    {id: 2},
-    {id: 3},
-    {id: 4},
-    {id: 1},
-    {id: 2},
-    {id: 3},
-    {id: 4},
+    {id: 5, open: true},
+    {id: 6},
+    {id: 7, open: true},
+    {id: 8},
+    {id: 10},
+    {id: 11, open: true},
+    {id: 12},
+    {id: 13},
+    {id: 14},
+    {id: 15},
+    {id: 16},
+    {id: 17},
   ];
-  const renderItem = ({item}) => <BillCard />;
+  const renderItem = ({item}) => <BillCard data={item} />;
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);

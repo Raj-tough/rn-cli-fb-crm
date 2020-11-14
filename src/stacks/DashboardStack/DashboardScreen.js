@@ -255,12 +255,12 @@ const DashboardScreen = ({navigation}) => {
           </View>
         )}
       </View>
-      <Pressable
+      {/* <Pressable
         android_ripple={{color: 'lightgrey', borderless: false}}
         onPress={() =>
           navigation.navigate('Bill', {
-            screen: 'AddBillScreen',
-            params: {id: 2},
+            routeName: 'sdads',
+            params: {navigate: 'Raja'},
           })
         }
         style={{
@@ -275,7 +275,7 @@ const DashboardScreen = ({navigation}) => {
         <Text style={{color: 'dodgerblue', fontSize: 18, fontWeight: 'bold'}}>
           + NEW BILL
         </Text>
-      </Pressable>
+      </Pressable> */}
     </View>
   );
 };
