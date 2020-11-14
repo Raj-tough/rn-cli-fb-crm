@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -8,12 +8,16 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   ScrollView,
+  ToastAndroid,
+  Modal,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 // import DropDownPicker from 'react-native-dropdown-picker';
 import DropDownPicker from '../../../components/DropdownPicker';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 import RNPickerSelect from 'react-native-picker-select';
+import {setEnabled} from 'react-native/Libraries/Performance/Systrace';
+import {Bars} from 'react-native-loader';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -22,14 +26,80 @@ const AddCustomerScreen = () => {
   const [category, setCategory] = useState('');
   const [opened, setOpened] = useState(false);
   const [proofType, setProofType] = useState('Select proof type');
+  const [cusName, setCusName] = useState('');
+  const [cusPhno, setCusPhno] = useState('');
+  const [cusAddr, setCusAddr] = useState('');
+  const [cusProodId, setCusProofId] = useState('');
+  const [cusNameError, setCusNameError] = useState(false);
+  const [cusPhnoError, setCusPhnoError] = useState(false);
+  const [phnNoDigitError, setPhNoDigitError] = useState(false);
+  const [cusAddrError, setCusAddrError] = useState(false);
+  const [cusProofTypeError, setCusProofTypeError] = useState(false);
+  const [cusProodIdError, setCusProofIdError] = useState(false);
+  const [enabled, SetEnabled] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const cbForCreateNewCAtegory = () => {
     console.log('create new category invoked');
   };
+
+  const submitHandler = () => {
+    if (
+      cusName &&
+      cusPhno &&
+      !phnNoDigitError &&
+      cusAddr &&
+      cusProodId &&
+      proofType
+    ) {
+      console.log('submitting form');
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+        showToast();
+      }, 3000);
+      clearForm();
+    }
+    cusName === '' ? setCusNameError(true) : setCusNameError(false);
+    cusPhno === '' ? setCusPhnoError(true) : setCusPhnoError(false);
+    cusPhno.length < 10 ? setPhNoDigitError(true) : setPhNoDigitError(false);
+    cusAddr === '' ? setCusAddrError(true) : setCusAddrError(false);
+    cusProodId === '' ? setCusProofIdError(true) : setCusProofIdError(false);
+    proofType === 'Select proof type'
+      ? setCusProofTypeError(true)
+      : setCusProofTypeError(false);
+  };
+
+  const clearForm = () => {
+    setCusName('');
+    setCusPhno('');
+    setCusAddr('');
+    setCusProofId('');
+    setProofType('Select proof type');
+  };
+
+  const showToast = () => {
+    ToastAndroid.show('Customer added successfully!', ToastAndroid.SHORT);
+  };
+
   return (
     <View style={{flex: 1, alignItems: 'center'}}>
+      {loading ? (
+        <Modal transparent={true}>
+          <View
+            style={{
+              height: height,
+              width: width,
+              backgroundColor: 'rgba(0,0,0,0.3)',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <Bars size={10} color="#1e90ff" />
+          </View>
+        </Modal>
+      ) : null}
       <ScrollView style={{width: '100%'}}>
-        <KeyboardAvoidingView behavior="position" keyboardVerticalOffset={150}>
+        <KeyboardAvoidingView behavior="position" keyboardVerticalOffset={60}>
           <View
             style={{
               alignItems: 'center',
@@ -42,15 +112,23 @@ const AddCustomerScreen = () => {
                 fontSize: 12,
                 marginBottom: 5,
               }}>
-              Customer name
+              Customer name{' '}
+              <Text style={{color: 'red'}}>
+                {cusNameError ? '  * required.' : ''}
+              </Text>
             </Text>
             <TextInput
               style={{
                 borderWidth: 1,
-                borderColor: 'lightgrey',
+                borderColor: cusNameError ? 'red' : 'lightgrey',
                 width: 0.8 * width,
                 borderRadius: 5,
                 paddingLeft: 15,
+              }}
+              value={cusName}
+              onChangeText={(val) => {
+                setCusName(val);
+                val === '' ? setCusNameError(true) : setCusNameError(false);
               }}
               placeholder="Enter Customer name"
             />
@@ -67,12 +145,28 @@ const AddCustomerScreen = () => {
                 fontSize: 12,
                 marginBottom: 5,
               }}>
-              Phone number
+              Phone number{' '}
+              <Text style={{color: 'red'}}>
+                {cusPhnoError ? '  * required.' : ''}{' '}
+                <Text style={{color: 'red'}}>
+                  {phnNoDigitError ? ' Phone no. must be 10 digits' : ''}
+                </Text>
+              </Text>
             </Text>
             <TextInput
+              onChangeText={(val) => {
+                setCusPhno(val);
+                val === '' ? setCusPhnoError(true) : setCusPhnoError(false);
+                val.length < 10
+                  ? setPhNoDigitError(true)
+                  : setPhNoDigitError(false);
+              }}
+              value={cusPhno}
+              keyboardType="phone-pad"
+              maxLength={10}
               style={{
                 borderWidth: 1,
-                borderColor: 'lightgrey',
+                borderColor: cusPhnoError ? 'red' : 'lightgrey',
                 width: 0.8 * width,
                 borderRadius: 5,
                 paddingLeft: 15,
@@ -93,11 +187,19 @@ const AddCustomerScreen = () => {
                 marginBottom: 5,
               }}>
               Address
+              <Text style={{color: 'red'}}>
+                {cusAddrError ? '  * required.' : ''}
+              </Text>
             </Text>
             <TextInput
+              onChangeText={(val) => {
+                setCusAddr(val);
+                val === '' ? setCusAddrError(true) : setCusAddrError(false);
+              }}
+              value={cusAddr}
               style={{
                 borderWidth: 1,
-                borderColor: 'lightgrey',
+                borderColor: cusAddrError ? 'red' : 'lightgrey',
                 width: 0.8 * width,
                 borderRadius: 5,
                 paddingLeft: 15,
@@ -118,13 +220,16 @@ const AddCustomerScreen = () => {
                 marginLeft: 0.1 * width,
               }}>
               Select proof type
+              <Text style={{color: 'red'}}>
+                {cusProofTypeError ? '  * required.' : ''}
+              </Text>
             </Text>
             <Pressable
               android_ripple={{color: 'lightgrey'}}
               onPress={() => setOpened(!opened)}
               style={{
                 width: 0.8 * width,
-                borderColor: 'lightgrey',
+                borderColor: cusProofTypeError ? 'red' : 'lightgrey',
                 borderWidth: 1,
                 height: 50,
                 alignItems: 'center',
@@ -134,7 +239,10 @@ const AddCustomerScreen = () => {
                 flexDirection: 'row',
               }}>
               <View style={{marginLeft: '3%', flex: 1, paddingLeft: 8}}>
-                <Text style={{color: 'gray'}}>
+                <Text
+                  style={{
+                    color: proofType === 'Select proof type' ? 'gray' : 'black',
+                  }}>
                   {proofType === 'Select proof type'
                     ? 'Select proof type'
                     : proofType}
@@ -163,15 +271,17 @@ const AddCustomerScreen = () => {
                   onPress={() => {
                     setProofType('Select proof type');
                     setOpened(false);
+                    setCusProofTypeError(true);
                   }}
                   style={{padding: 10, width: '100%'}}
                   android_ripple={{color: 'lightgrey'}}>
-                  <Text>Select proof type</Text>
+                  <Text style={{color: 'grey'}}>Select proof type</Text>
                 </Pressable>
                 <Pressable
                   onPress={() => {
                     setProofType('Voter ID');
                     setOpened(false);
+                    setCusProofTypeError(false);
                   }}
                   style={{padding: 10, width: '100%'}}
                   android_ripple={{color: 'lightgrey'}}>
@@ -181,6 +291,7 @@ const AddCustomerScreen = () => {
                   onPress={() => {
                     setProofType('Aadhar');
                     setOpened(false);
+                    setCusProofTypeError(false);
                   }}
                   style={{padding: 10, width: '100%'}}
                   android_ripple={{color: 'lightgrey'}}>
@@ -202,11 +313,21 @@ const AddCustomerScreen = () => {
                 marginBottom: 5,
               }}>
               Proof Id number
+              <Text style={{color: 'red'}}>
+                {cusProodIdError ? '  * required.' : ''}
+              </Text>
             </Text>
             <TextInput
+              onChangeText={(val) => {
+                setCusProofId(val);
+                val === ''
+                  ? setCusProofIdError(true)
+                  : setCusProofIdError(false);
+              }}
+              value={cusProodId}
               style={{
                 borderWidth: 1,
-                borderColor: 'lightgrey',
+                borderColor: cusProodIdError ? 'red' : 'lightgrey',
                 width: 0.8 * width,
                 borderRadius: 5,
                 paddingLeft: 15,
@@ -224,6 +345,7 @@ const AddCustomerScreen = () => {
               marginTop: 0.03 * height,
             }}>
             <Pressable
+              onPress={() => submitHandler()}
               android_ripple={{color: 'lightgrey'}}
               style={{
                 alignSelf: 'center',
@@ -239,6 +361,9 @@ const AddCustomerScreen = () => {
               <Text>Submit</Text>
             </Pressable>
             <Pressable
+              onPress={() => {
+                clearForm();
+              }}
               android_ripple={{color: 'lightgrey'}}
               style={{
                 alignSelf: 'center',

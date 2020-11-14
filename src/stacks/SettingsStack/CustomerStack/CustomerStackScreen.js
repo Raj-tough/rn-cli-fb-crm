@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, Pressable} from 'react-native';
 import {
   createStackNavigator,
   CardStyleInterpolators,
@@ -35,18 +35,19 @@ const SettingsStackScreen = ({navigation}) => {
                     Total {'  '} - {'  '} 4
                   </Text>
                 </View>
-                <TouchableOpacity
+                <Pressable
+                  android_ripple={{color: 'lightgrey'}}
                   style={{
                     borderRadius: 10,
-                    borderWidth: 1,
+                    // borderWidth: 1,
                     borderColor: 'dodgerblue',
-                    backgroundColor: 'lightblue',
+                    backgroundColor: 'dodgerblue',
                     paddingHorizontal: 20,
-                    paddingVertical: 5,
+                    paddingVertical: 10,
                   }}
                   onPress={() => navigation.navigate('AddCustomerScreen')}>
-                  <Text style={{color: 'white'}}>Add</Text>
-                </TouchableOpacity>
+                  <Text style={{color: 'white'}}>+ Add</Text>
+                </Pressable>
               </View>
             );
           },
