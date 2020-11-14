@@ -52,8 +52,9 @@ const DashboardStackScreen = ({navigation}) => {
                 <TextInput
                   placeholder="Search"
                   style={{
+                    textAlign: 'right',
                     width: 0.45 * width,
-                    marginLeft: 0.03 * width,
+                    marginRight: 0.03 * width,
                   }}
                 />
               </View>

@@ -12,11 +12,12 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import BillCard from './BillCard';
 import DatePicker from 'react-native-date-ranges-picker';
+import {connect} from 'react-redux';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
-const BillScreen = ({route, navigation}) => {
+const BillScreen = ({route, navigation, filterName}) => {
   const [loading, setLoading] = useState(true);
   const [selectedFilter, setSelectedFilter] = useState('all');
 
@@ -44,7 +45,13 @@ const BillScreen = ({route, navigation}) => {
       setLoading(false);
     }, 2000);
   }, []);
-  console.log(route);
+  useEffect(() => {
+    setSelectedFilter(filterName);
+  }, [filterName]);
+  useEffect(() => {
+    console.log('changing data');
+  }, [selectedFilter]);
+  console.log('routing', route);
   return (
     <View style={{flex: 1, alignItems: 'center'}}>
       {/* <Text>{opened ? opened : ''}</Text> */}
@@ -101,8 +108,7 @@ const BillScreen = ({route, navigation}) => {
             marginHorizontal: 5,
             borderWidth: 1,
             borderColor: selectedFilter === 'all' ? 'green' : 'lightgrey',
-            backgroundColor:
-              selectedFilter === 'all' ? 'lightgreen' : '#f2f2f2',
+            backgroundColor: selectedFilter === 'all' ? 'lightblue' : '#f2f2f2',
           }}>
           <Text>All</Text>
         </Pressable>
@@ -120,9 +126,8 @@ const BillScreen = ({route, navigation}) => {
             borderRadius: 5,
             marginHorizontal: 5,
             borderWidth: 1,
-            borderColor: selectedFilter === 'opened' ? 'green' : 'lightgrey',
-            backgroundColor:
-              selectedFilter === 'opened' ? 'lightgreen' : '#f2f2f2',
+            borderColor: selectedFilter === 'opened' ? 'red' : 'lightgrey',
+            backgroundColor: selectedFilter === 'opened' ? 'tomato' : '#f2f2f2',
           }}>
           <Text>opened</Text>
         </Pressable>
@@ -140,9 +145,8 @@ const BillScreen = ({route, navigation}) => {
             borderRadius: 5,
             marginHorizontal: 5,
             borderWidth: 1,
-            borderColor: selectedFilter === 'danger' ? 'green' : 'lightgrey',
-            backgroundColor:
-              selectedFilter === 'danger' ? 'lightgreen' : '#f2f2f2',
+            borderColor: selectedFilter === 'danger' ? 'tomato' : 'lightgrey',
+            backgroundColor: selectedFilter === 'danger' ? 'red' : '#f2f2f2',
           }}>
           <Text>danger</Text>
         </Pressable>
@@ -155,9 +159,8 @@ const BillScreen = ({route, navigation}) => {
               borderWidth: 0,
               // backgroundColor: 'plum',
               borderWidth: 1,
-              borderColor: selectedFilter === 'range' ? 'green' : 'lightgrey',
-              backgroundColor:
-                selectedFilter === 'range' ? 'lightgreen' : '#f2f2f2',
+              borderColor: selectedFilter === 'range' ? 'purple' : 'lightgrey',
+              backgroundColor: selectedFilter === 'range' ? 'plum' : '#f2f2f2',
             }}
             onConfirm={(val) => {
               console.log(val);
@@ -188,7 +191,7 @@ const BillScreen = ({route, navigation}) => {
             outFormat="DD/MM/YYYY"
             customStyles={{
               placeholderText: {fontSize: 14, color: 'black'}, // placeHolder style
-              headerStyle: {backgroundColor: 'lightblue'}, // title container style
+              headerStyle: {backgroundColor: 'darkturquoise'}, // title container style
               headerMarkTitle: {}, // title mark style
               headerDateTitle: {}, // title Date style
               contentInput: {}, //content text container style
@@ -287,5 +290,9 @@ const BillScreen = ({route, navigation}) => {
     </View>
   );
 };
-
-export default BillScreen;
+function mapStateToProps(state) {
+  return {
+    filterName: state.FilterReducer.filterName,
+  };
+}
+export default connect(mapStateToProps)(BillScreen);

@@ -18,7 +18,8 @@ import RNPickerSelect from 'react-native-picker-select';
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
-const AddBillScreen = () => {
+const AddBillScreen = ({route}) => {
+  console.log('route', route);
   const [category, setCategory] = useState('');
   const [opened, setOpened] = useState(false);
   const [proofType, setProofType] = useState('Select proof type');

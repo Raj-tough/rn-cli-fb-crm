@@ -48,7 +48,14 @@ const BillStackScreen = ({navigation}) => {
                   justifyContent: 'center',
                   // marginRight: 0.01 * width,
                 }}>
-                <Text style={{color: 'dodgerblue'}}> + Add Bill</Text>
+                <Text
+                  style={{
+                    color: 'dodgerblue',
+                    fontSize: 18,
+                    fontWeight: 'bold',
+                  }}>
+                  + Add Bill
+                </Text>
               </Pressable>
             );
           },
