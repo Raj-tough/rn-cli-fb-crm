@@ -1,4 +1,5 @@
 import React from 'react';
+import {View, Text, TouchableOpacity} from 'react-native';
 import {
   createStackNavigator,
   CardStyleInterpolators,
@@ -20,6 +21,35 @@ const ProductStackScreen = ({navigation}) => {
         options={{
           title: 'Products',
           headerShown: true,
+          headerRight: () => {
+            return (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'flex-start',
+                  alignItems: 'center',
+                  marginRight: 15,
+                }}>
+                <View style={{marginRight: 15}}>
+                  <Text>
+                    Total {'  '} - {'  '} 4
+                  </Text>
+                </View>
+                <TouchableOpacity
+                  style={{
+                    borderRadius: 10,
+                    borderWidth: 1,
+                    borderColor: 'dodgerblue',
+                    backgroundColor: 'lightblue',
+                    paddingHorizontal: 20,
+                    paddingVertical: 5,
+                  }}
+                  onPress={() => navigation.navigate('AddProductScreen')}>
+                  <Text style={{color: 'white'}}>Add</Text>
+                </TouchableOpacity>
+              </View>
+            );
+          },
         }}
       />
       <ProductStack.Screen

@@ -18,7 +18,7 @@ const height = Dimensions.get('window').height;
 
 const CustomerScreen = ({navigation}) => {
   const [loading, setLoading] = useState(true);
-  const renderItem = ({item}) => <CustomerCard />;
+
   const data = [
     {id: 1},
     {id: 2},
@@ -37,7 +37,7 @@ const CustomerScreen = ({navigation}) => {
     {id: 3},
     {id: 4},
   ];
-
+  const renderItem = ({item}) => <CustomerCard />;
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);

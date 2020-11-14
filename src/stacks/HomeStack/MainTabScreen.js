@@ -1,12 +1,13 @@
 import React from 'react';
-import HomeScreen from './HomeScreen';
+import HomeScreen from '../DashboardStack/DashboardScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
 import SettingsStackScreen from '../SettingsStack/SettingsStackScreen';
-import BillScreen from './BillScreen';
 import {
   createBottomTabNavigator,
   CardStyleInterpolators,
 } from '@react-navigation/bottom-tabs';
+import BillStackScreen from '../BillStack/BillStackScreen';
+import DashboardStackScreen from '../DashboardStack/DashboardStackScreen'
 
 const Tab = createBottomTabNavigator();
 
@@ -15,7 +16,7 @@ const TabNavigator = () => {
     <Tab.Navigator>
       <Tab.Screen
         name="Home"
-        component={HomeScreen}
+        component={DashboardStackScreen}
         options={{
           tabBarLabel: 'Dashboard',
           tabBarColor: '#009387',
@@ -26,7 +27,7 @@ const TabNavigator = () => {
       />
       <Tab.Screen
         name="Bill"
-        component={BillScreen}
+        component={BillStackScreen}
         options={{
           tabBarLabel: 'Bill',
           tabBarColor: '#009387',

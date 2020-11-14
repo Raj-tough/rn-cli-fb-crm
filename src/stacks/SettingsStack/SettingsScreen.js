@@ -26,7 +26,13 @@ const SettingsScreen = ({navigation}) => {
           style={{
             width: '100%',
             height: '100%',
-          }}></Pressable>
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <Text style={{fontSize: 20, fontWeight: 'bold', color: 'green'}}>
+            SRK RENTALS
+          </Text>
+        </Pressable>
       </View>
       <View
         style={{
@@ -107,8 +113,15 @@ const SettingsScreen = ({navigation}) => {
           android_ripple={{color: 'lightgrey'}}
           style={styles.outerBox}></Pressable>
         <Pressable
+          onPress={() => {}}
           android_ripple={{color: 'lightgrey'}}
-          style={styles.outerBox}></Pressable>
+          style={{
+            ...styles.outerBox,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <Text style={{color: 'dodgerblue'}}>Logout</Text>
+        </Pressable>
       </View>
     </View>
   );
@@ -120,7 +133,7 @@ const styles = StyleSheet.create({
   outerBox: {
     borderBottomWidth: 1,
     borderBottomColor: 'lightgrey',
-    width: 0.85 * width,
+    width: 0.9 * width,
     height: 0.07 * height,
     flexDirection: 'row',
     alignItems: 'center',
