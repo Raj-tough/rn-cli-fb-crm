@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, Text, Dimensions, Pressable} from 'react-native';
+import {CountUp} from 'use-count-up';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -14,12 +15,12 @@ const DashboardScreen = ({navigation}) => {
             marginTop: 0.02 * height,
             backgroundColor: 'aquamarine',
             height: 0.07 * height,
-            width: 0.7 * width,
+            width: 0.8 * width,
             alignSelf: 'center',
             justifyContent: 'center',
           }}>
-          <Text style={{color: 'green', fontSize: 20, fontWeight: 'bold'}}>
-            SRK CENTERING RENTALS
+          <Text style={{color: 'green', fontSize: 18, fontWeight: 'bold'}}>
+            S R K {'  '}C E N T E R I N G {'  '}R E N T A L S
           </Text>
         </View>
         <View
@@ -43,7 +44,9 @@ const DashboardScreen = ({navigation}) => {
             <Text style={{marginTop: 10, marginBottom: 5}}>
               Total opened bills
             </Text>
-            <Text style={{fontSize: 25, fontWeight: 'bold'}}> 2</Text>
+            <Text style={{fontSize: 25, fontWeight: 'bold'}}>
+              <CountUp isCounting end={536} duration={2} />
+            </Text>
           </Pressable>
           <Pressable
             android_ripple={{color: 'lightgrey'}}
@@ -58,7 +61,9 @@ const DashboardScreen = ({navigation}) => {
             <Text style={{marginTop: 10, marginBottom: 5}}>
               Total closed bills
             </Text>
-            <Text style={{fontSize: 25, fontWeight: 'bold'}}> 2</Text>
+            <Text style={{fontSize: 25, fontWeight: 'bold'}}>
+              <CountUp isCounting end={2305} duration={2} />
+            </Text>
           </Pressable>
         </View>
         <View
@@ -69,7 +74,7 @@ const DashboardScreen = ({navigation}) => {
             justifyContent: 'space-around',
           }}>
           <Pressable
-            onPress={() => navigation.navigate('Bill')}
+            onPress={() => navigation.navigate('BillScreen')}
             android_ripple={{color: 'lightgrey'}}
             style={{
               height: 0.1 * height,
@@ -82,7 +87,9 @@ const DashboardScreen = ({navigation}) => {
             <Text style={{marginTop: 10, marginBottom: 5}}>
               Bills opened this month
             </Text>
-            <Text style={{fontSize: 25, fontWeight: 'bold'}}> 2</Text>
+            <Text style={{fontSize: 25, fontWeight: 'bold'}}>
+              <CountUp isCounting end={1905} duration={2} />
+            </Text>
           </Pressable>
           <Pressable
             android_ripple={{color: 'lightgrey'}}
@@ -97,7 +104,9 @@ const DashboardScreen = ({navigation}) => {
             <Text style={{marginTop: 10, marginBottom: 5}}>
               Bills closed this month
             </Text>
-            <Text style={{fontSize: 25, fontWeight: 'bold'}}> 2</Text>
+            <Text style={{fontSize: 25, fontWeight: 'bold'}}>
+              <CountUp isCounting end={534} duration={2} />
+            </Text>
           </Pressable>
         </View>
         <View
@@ -118,7 +127,9 @@ const DashboardScreen = ({navigation}) => {
               alignItems: 'center',
             }}>
             <Text style={{marginTop: 10, marginBottom: 5}}>Amount Pending</Text>
-            <Text style={{fontSize: 25, fontWeight: 'bold'}}> 2</Text>
+            <Text style={{fontSize: 25, fontWeight: 'bold'}}>
+              <CountUp isCounting end={365} duration={2} />
+            </Text>
           </Pressable>
           <Pressable
             android_ripple={{color: 'lightgrey', borderless: false}}
@@ -131,7 +142,9 @@ const DashboardScreen = ({navigation}) => {
               alignItems: 'center',
             }}>
             <Text style={{marginTop: 10, marginBottom: 5}}>Bills danger</Text>
-            <Text style={{fontSize: 25, fontWeight: 'bold'}}> 2</Text>
+            <Text style={{fontSize: 25, fontWeight: 'bold'}}>
+              <CountUp isCounting end={550} duration={2} />
+            </Text>
           </Pressable>
         </View>
       </View>

@@ -11,12 +11,14 @@ import {ScrollView} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import BillCard from './BillCard';
+import DatePicker from 'react-native-date-ranges-picker';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
 const BillScreen = ({route, navigation}) => {
   const [loading, setLoading] = useState(true);
+  const [selectedFilter, setSelectedFilter] = useState('all');
 
   const data = [
     {id: 1},
@@ -42,7 +44,6 @@ const BillScreen = ({route, navigation}) => {
       setLoading(false);
     }, 2000);
   }, []);
-  // const {openBills} = route.params;
   console.log(route);
   return (
     <View style={{flex: 1, alignItems: 'center'}}>
@@ -87,75 +88,140 @@ const BillScreen = ({route, navigation}) => {
         }}>
         <Pressable
           android_ripple={{color: 'lightgrey'}}
-          onPress={() => {}}
+          onPress={() => {
+            setSelectedFilter('all');
+          }}
           style={{
             height: 0.05 * height,
-            backgroundColor: 'darkturquoise',
+            // backgroundColor: 'darkturquoise',
             alignItems: 'center',
             justifyContent: 'center',
             paddingHorizontal: 20,
             borderRadius: 5,
             marginHorizontal: 5,
+            borderWidth: 1,
+            borderColor: selectedFilter === 'all' ? 'green' : 'lightgrey',
+            backgroundColor:
+              selectedFilter === 'all' ? 'lightgreen' : '#f2f2f2',
           }}>
           <Text>All</Text>
         </Pressable>
         <Pressable
           android_ripple={{color: 'lightgrey'}}
-          onPress={() => {}}
+          onPress={() => {
+            setSelectedFilter('opened');
+          }}
           style={{
             height: 0.05 * height,
-            backgroundColor: 'tomato',
+            // backgroundColor: 'tomato',
             alignItems: 'center',
             justifyContent: 'center',
             paddingHorizontal: 20,
             borderRadius: 5,
             marginHorizontal: 5,
+            borderWidth: 1,
+            borderColor: selectedFilter === 'opened' ? 'green' : 'lightgrey',
+            backgroundColor:
+              selectedFilter === 'opened' ? 'lightgreen' : '#f2f2f2',
           }}>
           <Text>opened</Text>
         </Pressable>
         <Pressable
           android_ripple={{color: 'lightgrey'}}
-          onPress={() => {}}
+          onPress={() => {
+            setSelectedFilter('danger');
+          }}
           style={{
             height: 0.05 * height,
-            backgroundColor: 'red',
+            // backgroundColor: 'red',
             alignItems: 'center',
             justifyContent: 'center',
             paddingHorizontal: 20,
             borderRadius: 5,
             marginHorizontal: 5,
+            borderWidth: 1,
+            borderColor: selectedFilter === 'danger' ? 'green' : 'lightgrey',
+            backgroundColor:
+              selectedFilter === 'danger' ? 'lightgreen' : '#f2f2f2',
           }}>
           <Text>danger</Text>
         </Pressable>
+        <View style={{alignSelf: 'flex-start'}}>
+          <DatePicker
+            style={{
+              height: 0.05 * height,
+              paddingHorizontal: 15,
+              borderRadius: 5,
+              borderWidth: 0,
+              // backgroundColor: 'plum',
+              borderWidth: 1,
+              borderColor: selectedFilter === 'range' ? 'green' : 'lightgrey',
+              backgroundColor:
+                selectedFilter === 'range' ? 'lightgreen' : '#f2f2f2',
+            }}
+            onConfirm={(val) => {
+              console.log(val);
+              setSelectedFilter('range');
+            }}
+            markText="Select Date range"
+            customButton={(onConfirm) => {
+              return (
+                <Pressable
+                  android_ripple={{color: 'lightgrey'}}
+                  onPress={onConfirm}
+                  style={{
+                    backgroundColor: 'lightblue',
+                    borderRadius: 5,
+                    borderWidth: 1,
+                    borderColor: 'green',
+                    height: 40,
+                    width: 150,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                  <Text>Show Bills</Text>
+                </Pressable>
+              );
+            }}
+            selectedTextColor="black"
+            returnFormat="DD/MM/YYYY"
+            outFormat="DD/MM/YYYY"
+            customStyles={{
+              placeholderText: {fontSize: 14, color: 'black'}, // placeHolder style
+              headerStyle: {backgroundColor: 'lightblue'}, // title container style
+              headerMarkTitle: {}, // title mark style
+              headerDateTitle: {}, // title Date style
+              contentInput: {}, //content text container style
+              contentText: {color: 'black', fontSize: 14}, //after selected text Style
+            }} // optional
+            centerAlign // optional text will align center or not
+            allowFontScaling={false} // optional
+            placeholder={'Date range'}
+            mode={'range'}
+          />
+        </View>
         <Pressable
           android_ripple={{color: 'lightgrey'}}
-          onPress={() => {}}
+          onPress={() => {
+            setSelectedFilter('closed');
+          }}
           style={{
             height: 0.05 * height,
-            backgroundColor: 'plum',
+            // backgroundColor: 'yellowgreen',
             alignItems: 'center',
             justifyContent: 'center',
             paddingHorizontal: 20,
             borderRadius: 5,
             marginHorizontal: 5,
-          }}>
-          <Text>Range</Text>
-        </Pressable>
-        <Pressable
-          android_ripple={{color: 'lightgrey'}}
-          onPress={() => {}}
-          style={{
-            height: 0.05 * height,
-            backgroundColor: 'yellowgreen',
-            alignItems: 'center',
-            justifyContent: 'center',
-            paddingHorizontal: 20,
-            borderRadius: 5,
-            marginHorizontal: 5,
+            borderWidth: 1,
+            borderColor: selectedFilter === 'closed' ? 'green' : 'lightgrey',
+            backgroundColor:
+              selectedFilter === 'closed' ? 'lightgreen' : '#f2f2f2',
           }}>
           <Text>Closed</Text>
         </Pressable>
       </ScrollView>
+
       <View
         style={{
           flex: 1,
