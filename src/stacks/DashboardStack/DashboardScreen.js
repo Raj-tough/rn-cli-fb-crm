@@ -4,11 +4,12 @@ import {CountUp} from 'use-count-up';
 import {useDispatch} from 'react-redux';
 import {changeBillScreenFilter} from '../../actions/FilterActions';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import {connect} from 'react-redux';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
-const DashboardScreen = ({navigation}) => {
+const DashboardScreen = ({navigation, user}) => {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -32,6 +33,7 @@ const DashboardScreen = ({navigation}) => {
           <Text style={{color: 'green', fontSize: 18, fontWeight: 'bold'}}>
             S R K {'  '}C E N T E R I N G {'  '}R E N T A L S
           </Text>
+          <Text>{user.email ? user.email : ''}</Text>
         </View>
         {loading ? (
           <View style={{width: width}}>
@@ -280,4 +282,10 @@ const DashboardScreen = ({navigation}) => {
   );
 };
 
-export default DashboardScreen;
+function mapStateToProps(state) {
+  return {
+    user: state.LoginReducer.user,
+  };
+}
+
+export default connect(mapStateToProps)(DashboardScreen);

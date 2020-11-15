@@ -2,11 +2,14 @@ import React from 'react';
 import {View, Text, Dimensions, Pressable, StyleSheet} from 'react-native';
 import {color} from 'react-native-reanimated';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {logoutUser} from '../../services/AuthService';
+import {useDispatch} from 'react-redux';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
 const SettingsScreen = ({navigation}) => {
+  const dispatch = useDispatch();
   return (
     <View style={{flex: 1, alignItems: 'center', backgroundColor: 'white'}}>
       <View
@@ -113,7 +116,9 @@ const SettingsScreen = ({navigation}) => {
           android_ripple={{color: 'lightgrey'}}
           style={styles.outerBox}></Pressable>
         <Pressable
-          onPress={() => {}}
+          onPress={() => {
+            dispatch(logoutUser());
+          }}
           android_ripple={{color: 'lightgrey'}}
           style={{
             ...styles.outerBox,

@@ -28,13 +28,6 @@ const RootStackScreen = ({navigation}) => {
           headerShown: false,
         }}
       />
-      <RootStack.Screen
-        name="HomeStackScreen"
-        component={HomeStackScreen}
-        options={{
-          headerShown: false,
-        }}
-      />
     </RootStack.Navigator>
   );
 };

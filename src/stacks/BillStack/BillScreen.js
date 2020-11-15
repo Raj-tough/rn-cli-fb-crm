@@ -150,6 +150,26 @@ const BillScreen = ({route, navigation, filterName}) => {
           }}>
           <Text>danger</Text>
         </Pressable>
+        <Pressable
+          android_ripple={{color: 'lightgrey'}}
+          onPress={() => {
+            setSelectedFilter('closed');
+          }}
+          style={{
+            height: 0.05 * height,
+            // backgroundColor: 'yellowgreen',
+            alignItems: 'center',
+            justifyContent: 'center',
+            paddingHorizontal: 20,
+            borderRadius: 5,
+            marginHorizontal: 5,
+            borderWidth: 1,
+            borderColor: selectedFilter === 'closed' ? 'green' : 'lightgrey',
+            backgroundColor:
+              selectedFilter === 'closed' ? 'lightgreen' : '#f2f2f2',
+          }}>
+          <Text>Closed</Text>
+        </Pressable>
         <View style={{alignSelf: 'flex-start'}}>
           <DatePicker
             style={{
@@ -203,26 +223,6 @@ const BillScreen = ({route, navigation, filterName}) => {
             mode={'range'}
           />
         </View>
-        <Pressable
-          android_ripple={{color: 'lightgrey'}}
-          onPress={() => {
-            setSelectedFilter('closed');
-          }}
-          style={{
-            height: 0.05 * height,
-            // backgroundColor: 'yellowgreen',
-            alignItems: 'center',
-            justifyContent: 'center',
-            paddingHorizontal: 20,
-            borderRadius: 5,
-            marginHorizontal: 5,
-            borderWidth: 1,
-            borderColor: selectedFilter === 'closed' ? 'green' : 'lightgrey',
-            backgroundColor:
-              selectedFilter === 'closed' ? 'lightgreen' : '#f2f2f2',
-          }}>
-          <Text>Closed</Text>
-        </Pressable>
       </ScrollView>
 
       <View

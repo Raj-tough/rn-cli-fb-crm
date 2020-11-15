@@ -5,15 +5,10 @@ import {
   Pressable,
   Dimensions,
   TextInput,
-  TouchableOpacity,
   KeyboardAvoidingView,
   ScrollView,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-// import DropDownPicker from 'react-native-dropdown-picker';
-import DropDownPicker from '../../components/DropdownPicker';
-import FeatherIcon from 'react-native-vector-icons/Feather';
-import RNPickerSelect from 'react-native-picker-select';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
