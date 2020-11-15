@@ -290,6 +290,7 @@ const BillScreen = ({route, navigation, filterName}) => {
     </View>
   );
 };
+
 function mapStateToProps(state) {
   return {
     filterName: state.FilterReducer.filterName,
