@@ -12,37 +12,50 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 import CustomerCard from './CustomerCard';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import {connect, useDispatch} from 'react-redux';
+import {getCustomers} from '../../../services/CustomerServices';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
-const CustomerScreen = ({navigation}) => {
+const CustomerScreen = (props) => {
   const [loading, setLoading] = useState(true);
+  const [cusData, setCusData] = useState([]);
+  const [rootData, setRootData] = useState([]);
+  const dispatch = useDispatch();
+  const {user, customerData} = props;
 
-  const data = [
-    {id: 1},
-    {id: 2},
-    {id: 3},
-    {id: 4},
-    {id: 1},
-    {id: 2},
-    {id: 3},
-    {id: 4},
-    {id: 1},
-    {id: 2},
-    {id: 3},
-    {id: 4},
-    {id: 1},
-    {id: 2},
-    {id: 3},
-    {id: 4},
-  ];
-  const renderItem = ({item}) => <CustomerCard />;
   useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+    dispatch(getCustomers(user.uid));
   }, []);
+
+  useEffect(() => {
+    if (customerData) {
+      setLoading(false);
+      // console.log(customerData[0]);
+      let tempData = [];
+      if (customerData[0]) {
+        Object.keys(customerData[0]).map((key) => {
+          tempData.push(customerData[0][key]);
+        });
+        setCusData(tempData);
+        setRootData(tempData);
+      }
+    } else {
+      setLoading(false);
+    }
+  }, [customerData]);
+
+  const searchResults = (key) => {
+    // console.log(key);
+    let searchedData = rootData.filter(
+      (data) => data.name.slice(0, key.length) === key,
+    );
+    setCusData(searchedData);
+  };
+
+  const renderItem = ({item}) => <CustomerCard data={item} />;
+
   return (
     <View style={{flex: 1, alignItems: 'center'}}>
       <View
@@ -66,6 +79,7 @@ const CustomerScreen = ({navigation}) => {
         />
         <TextInput
           placeholder="Search customer name"
+          onChangeText={searchResults}
           style={{
             width: 0.65 * width,
             marginLeft: 0.03 * width,
@@ -74,12 +88,12 @@ const CustomerScreen = ({navigation}) => {
       </View>
       <View style={{alignItems: 'center', marginTop: 0.01 * height}}>
         {loading ? (
-          <View style={{width: width}}>
+          <View style={{width: 0.95 * width}}>
             <SkeletonPlaceholder>
               <View style={{alignItems: 'center'}}>
                 <View
                   style={{
-                    width: width,
+                    width: 0.95 * width,
                     height: 0.07 * height,
                     borderRadius: 4,
                     marginTop: 5,
@@ -87,7 +101,7 @@ const CustomerScreen = ({navigation}) => {
                 />
                 <View
                   style={{
-                    width: width,
+                    width: 0.95 * width,
                     height: 0.07 * height,
                     borderRadius: 4,
                     marginTop: 5,
@@ -95,7 +109,7 @@ const CustomerScreen = ({navigation}) => {
                 />
                 <View
                   style={{
-                    width: width,
+                    width: 0.95 * width,
                     height: 0.07 * height,
                     borderRadius: 4,
                     marginTop: 5,
@@ -103,7 +117,7 @@ const CustomerScreen = ({navigation}) => {
                 />
                 <View
                   style={{
-                    width: width,
+                    width: 0.95 * width,
                     height: 0.07 * height,
                     borderRadius: 4,
                     marginTop: 5,
@@ -111,7 +125,7 @@ const CustomerScreen = ({navigation}) => {
                 />
                 <View
                   style={{
-                    width: width,
+                    width: 0.95 * width,
                     height: 0.07 * height,
                     borderRadius: 4,
                     marginTop: 5,
@@ -123,7 +137,7 @@ const CustomerScreen = ({navigation}) => {
         ) : (
           <FlatList
             showsVerticalScrollIndicator={false}
-            data={data}
+            data={cusData}
             renderItem={renderItem}
             keyExtractor={(item) => item.id}
           />
@@ -132,5 +146,10 @@ const CustomerScreen = ({navigation}) => {
     </View>
   );
 };
-
-export default CustomerScreen;
+function mapStateToProps(state) {
+  return {
+    user: state.LoginReducer.user,
+    customerData: state.CustomerReducer.customerData,
+  };
+}
+export default connect(mapStateToProps)(CustomerScreen);

@@ -16,6 +16,12 @@ const height = Dimensions.get('window').height;
 const CustomerCard = (props) => {
   const [opened, setopened] = useState(false);
 
+  const initials = props.data.name.trim().split(' ');
+  let initial = '';
+  for (let i = 0; i < initials.length; i++) {
+    initial += initials[i][0].toUpperCase();
+  }
+
   const dial = (contact) => {
     let phoneNumber = '';
     if (Platform.OS === 'android') {
@@ -25,7 +31,7 @@ const CustomerCard = (props) => {
     }
     Linking.openURL(phoneNumber);
   };
-
+  // console.log('dataaaaaaa', props.data);
   return (
     <>
       <Pressable
@@ -35,7 +41,7 @@ const CustomerCard = (props) => {
           //   marginTop: 0.01 * height,
           //   borderWidth: 1,
           borderColor: 'lightgrey',
-          width: width,
+          width: 0.95 * width,
           height: 0.07 * height,
           justifyContent: 'center',
           //   borderRadius: opened ? 0 : 5,
@@ -48,15 +54,39 @@ const CustomerCard = (props) => {
           backgroundColor: 'white',
         }}>
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-          <View style={{marginLeft: 0.05 * width, flexDirection: 'row'}}>
-            <Text>
-              Customer name {'   '} - {'   '}
-            </Text>
-            <TouchableOpacity onPress={() => dial('8870347755')}>
-              <Text style={{color: 'dodgerblue'}}>8870347755</Text>
-            </TouchableOpacity>
+          <View
+            style={{
+              marginLeft: 0.05 * width,
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}>
+            <View
+              style={{
+                width: 40,
+                height: 40,
+                backgroundColor: props.data.profileColor
+                  ? props.data.profileColor
+                  : 'orange',
+                borderRadius: 50,
+                justifyContent: 'center',
+                alignItems: 'center',
+                marginLeft: 0.01 * width,
+                marginRight: 0.03 * width,
+              }}>
+              <Text style={{fontSize: 14, fontWeight: 'bold'}}>{initial}</Text>
+            </View>
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Text style={{fontWeight: 'bold', fontSize: 17}}>
+                {props.data.name ? props.data.name + '  -  ' : ' '}
+              </Text>
+              <TouchableOpacity onPress={() => dial('8870347755')}>
+                <Text style={{color: 'dodgerblue'}}>
+                  {props.data.phno ? props.data.phno : ''}
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
-          <View style={{marginRight: 0.05 * width}}>
+          <View style={{marginRight: 0.05 * width, justifyContent: 'center'}}>
             {opened ? (
               <Icon name="chevron-up-outline" size={20} />
             ) : (
@@ -70,7 +100,7 @@ const CustomerCard = (props) => {
           style={{
             // borderWidth: 1,
             borderColor: 'lightgrey',
-            width: width,
+            width: 0.95 * width,
             // borderRadius: opened ? 0 : 5,
             // borderTopWidth: opened ? 0 : 1,
             // borderBottomEndRadius: 5,
@@ -89,7 +119,9 @@ const CustomerCard = (props) => {
             <Text>Amount Pending - </Text>
           </View>
           <View style={{paddingHorizontal: 0.01 * height, marginVertical: 5}}>
-            <Text>Address - </Text>
+            <Text>
+              Address - {props.data.address ? props.data.address : ''}
+            </Text>
           </View>
           <View
             style={{
@@ -97,7 +129,7 @@ const CustomerCard = (props) => {
               marginVertical: 5,
               marginBottom: 15,
             }}>
-            <Text>Age - </Text>
+            <Text>DOJ - {props.data.doj ? props.data.doj : ''}</Text>
           </View>
         </View>
       ) : null}

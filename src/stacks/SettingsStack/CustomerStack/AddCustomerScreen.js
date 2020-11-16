@@ -12,11 +12,14 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {Bars} from 'react-native-loader';
+import {addCustomer} from '../../../services/CustomerServices';
+import {getRandomAllColor} from '../../../components/GetRandomColor';
+import {connect} from 'react-redux';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
-const AddCustomerScreen = () => {
+const AddCustomerScreen = (props) => {
   const [opened, setOpened] = useState(false);
   const [proofType, setProofType] = useState('Select proof type');
   const [cusName, setCusName] = useState('');
@@ -31,6 +34,8 @@ const AddCustomerScreen = () => {
   const [cusProodIdError, setCusProofIdError] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const {user} = props;
+
   const submitHandler = () => {
     if (
       cusName &&
@@ -40,13 +45,25 @@ const AddCustomerScreen = () => {
       cusProodId &&
       proofType
     ) {
-      console.log('submitting form');
       setLoading(true);
-      setTimeout(() => {
-        setLoading(false);
-        showToast('Customer added successfully!');
-        clearForm();
-      }, 3000);
+      let customerData = {
+        name: cusName,
+        phno: cusPhno,
+        address: cusAddr.replace(/(\r\n|\n|\r)/gm, ' '),
+        proofType: proofType,
+        proofIdNumber: cusProodId,
+        doj: new Date(),
+        profileColor: getRandomAllColor(),
+      };
+      addCustomer(user.uid, customerData)
+        .then((val) => {
+          showToast('Customer added successfully!');
+          setLoading(false);
+          clearForm();
+        })
+        .catch(() => {
+          showToast('Something went wrong !');
+        });
     } else {
       showToast('Please fill required fields!');
     }
@@ -376,5 +393,9 @@ const AddCustomerScreen = () => {
     </View>
   );
 };
-
-export default AddCustomerScreen;
+function mapStateToProps(state) {
+  return {
+    user: state.LoginReducer.user,
+  };
+}
+export default connect(mapStateToProps)(AddCustomerScreen);

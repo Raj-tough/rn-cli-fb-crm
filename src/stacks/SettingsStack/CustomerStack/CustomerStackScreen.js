@@ -6,10 +6,11 @@ import {
 } from '@react-navigation/stack';
 import CustomerScreen from './CustomerScreen';
 import AddCustomerScreen from './AddCustomerScreen';
+import {connect} from 'react-redux';
 
 const SettingsStack = createStackNavigator();
 
-const SettingsStackScreen = ({navigation}) => {
+const SettingsStackScreen = ({navigation, customerData}) => {
   return (
     <SettingsStack.Navigator
       screenOptions={{
@@ -32,7 +33,10 @@ const SettingsStackScreen = ({navigation}) => {
                 }}>
                 <View style={{marginRight: 15}}>
                   <Text>
-                    Total {'  '} - {'  '} 4
+                    Total {'  '} - {'  '}{' '}
+                    {customerData && customerData[0]
+                      ? Object.keys(customerData[0]).length
+                      : 0}
                   </Text>
                 </View>
                 <Pressable
@@ -65,4 +69,10 @@ const SettingsStackScreen = ({navigation}) => {
   );
 };
 
-export default SettingsStackScreen;
+function mapStateToProps(state) {
+  return {
+    customerData: state.CustomerReducer.customerData,
+  };
+}
+
+export default connect(mapStateToProps)(SettingsStackScreen);
