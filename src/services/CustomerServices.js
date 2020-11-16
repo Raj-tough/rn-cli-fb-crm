@@ -2,7 +2,7 @@ import {firebase} from '../firebase/firebase';
 import {storeCustomersToState} from '../actions/CustomersAction';
 
 export const getCustomers = (userId) => (dispatch) => {
-  // console.log('customer getting');
+  console.log('firing get customers');
   firebase
     .database()
     .ref('customers/' + userId)
@@ -21,9 +21,8 @@ export const getCustomers = (userId) => (dispatch) => {
 };
 
 export const addCustomer = (userId, customer) => {
-  console.log(customer);
+  console.log('firing add customer');
   return new Promise((resolve, reject) => {
-    console.log('customer adding');
     if (customer !== null) {
       firebase
         .database()

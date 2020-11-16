@@ -26,13 +26,11 @@ const CustomerScreen = (props) => {
   const {user, customerData} = props;
 
   useEffect(() => {
-    dispatch(getCustomers(user.uid));
+    // dispatch(getCustomers(user.uid));
   }, []);
 
   useEffect(() => {
     if (customerData) {
-      setLoading(false);
-      // console.log(customerData[0]);
       let tempData = [];
       if (customerData[0]) {
         Object.keys(customerData[0]).map((key) => {
@@ -40,6 +38,7 @@ const CustomerScreen = (props) => {
         });
         setCusData(tempData);
         setRootData(tempData);
+        setLoading(false);
       }
     } else {
       setLoading(false);
@@ -47,7 +46,6 @@ const CustomerScreen = (props) => {
   }, [customerData]);
 
   const searchResults = (key) => {
-    // console.log(key);
     let searchedData = rootData.filter(
       (data) => data.name.slice(0, key.length) === key,
     );
@@ -139,7 +137,7 @@ const CustomerScreen = (props) => {
             showsVerticalScrollIndicator={false}
             data={cusData}
             renderItem={renderItem}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => item.phno}
           />
         )}
       </View>

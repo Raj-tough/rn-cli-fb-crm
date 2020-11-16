@@ -33,8 +33,10 @@ const DashboardScreen = ({navigation, user}) => {
           <Text style={{color: 'green', fontSize: 18, fontWeight: 'bold'}}>
             S R K {'  '}C E N T E R I N G {'  '}R E N T A L S
           </Text>
-          <Text>{user.email ? user.email : ''}</Text>
         </View>
+        <Text style={{alignSelf: 'center', marginTop: 5}}>
+          {user.email ? user.email : ''}
+        </Text>
         {loading ? (
           <View style={{width: width}}>
             <SkeletonPlaceholder>

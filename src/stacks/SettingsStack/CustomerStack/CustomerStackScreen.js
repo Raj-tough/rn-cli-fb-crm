@@ -33,7 +33,7 @@ const SettingsStackScreen = ({navigation, customerData}) => {
                 }}>
                 <View style={{marginRight: 15}}>
                   <Text>
-                    Total {'  '} - {'  '}{' '}
+                    Total -{' '}
                     {customerData && customerData[0]
                       ? Object.keys(customerData[0]).length
                       : 0}
