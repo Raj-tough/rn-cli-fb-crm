@@ -9,47 +9,60 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-// import DropDownPicker from 'react-native-dropdown-picker';
-import DropDownPicker from '../../../components/DropdownPicker';
-import FeatherIcon from 'react-native-vector-icons/Feather';
-import {NavigationContainer} from '@react-navigation/native';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import ProductCard from './ProductCard';
+import {getAndUpdateProductListDataToState} from '../../../services/ProductService';
+import {connect, useDispatch} from 'react-redux';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
-const ProductScreen = ({navigation}) => {
-  const [product, setProduct] = useState('USA');
+const ProductScreen = (props) => {
+  const [product, setProduct] = useState([]);
+  const [rootData, setRootData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const data = [
-    {id: 1},
-    {id: 2},
-    {id: 3},
-    {id: 4},
-    {id: 1},
-    {id: 2},
-    {id: 3},
-    {id: 4},
-    {id: 1},
-    {id: 2},
-    {id: 3},
-    {id: 4},
-    {id: 1},
-    {id: 2},
-    {id: 3},
-    {id: 4},
-  ];
-  const renderItem = ({item}) => <ProductCard />;
+  const dispatch = useDispatch();
+  const {productList, user} = props;
+
+  const renderItem = ({item}) => <ProductCard data={item}/>;
+
   const cbForCreateNewCAtegory = () => {
     console.log('create new category invoked');
   };
+
   useEffect(() => {
+    dispatch(getAndUpdateProductListDataToState(user.uid));
     setTimeout(() => {
       setLoading(false);
     }, 2000);
   }, []);
+
+  useEffect(() => {
+    // console.log('list', productList);
+    if (productList) {
+      let tempData = [];
+      if (productList) {
+        Object.keys(productList).map((key) => {
+          tempData.push(productList[key]);
+        });
+        setProduct(tempData);
+        setRootData(tempData);
+        setLoading(false);
+        console.log('temp', tempData);
+      }
+    } else {
+      setLoading(false);
+    }
+  }, [productList]);
+
+  const searchResults = (key) => {
+    let searchedData = rootData.filter(
+      (data) => data.name.slice(0, key.length) === key,
+    );
+    setCusData(searchedData);
+  };
+
   return (
     <View style={{flex: 1, alignItems: 'center'}}>
       <View
@@ -74,6 +87,7 @@ const ProductScreen = ({navigation}) => {
         />
         <TextInput
           placeholder="Search products name"
+          onChangeText={searchResults}
           style={{
             width: 0.65 * width,
             marginLeft: 0.03 * width,
@@ -131,7 +145,7 @@ const ProductScreen = ({navigation}) => {
         ) : (
           <FlatList
             showsVerticalScrollIndicator={false}
-            data={data}
+            data={product}
             renderItem={renderItem}
             keyExtractor={(item) => item.id}
           />
@@ -141,4 +155,10 @@ const ProductScreen = ({navigation}) => {
   );
 };
 
-export default ProductScreen;
+function mapStateToProps(state) {
+  return {
+    productList: state.ProductReducer.productList,
+    user: state.LoginReducer.user,
+  };
+}
+export default connect(mapStateToProps)(ProductScreen);

@@ -26,7 +26,7 @@ const CustomerScreen = (props) => {
   const {user, customerData} = props;
 
   useEffect(() => {
-    // dispatch(getCustomers(user.uid));
+    dispatch(getCustomers(user.uid));
   }, []);
 
   useEffect(() => {

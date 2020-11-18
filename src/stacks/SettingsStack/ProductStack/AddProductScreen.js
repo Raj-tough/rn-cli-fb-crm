@@ -13,6 +13,10 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 import DropDownPicker from '../../../components/DropdownPicker';
 import {Bars} from 'react-native-loader';
+import {addProduct} from '../../../services/ProductService';
+import {useDispatch, connect} from 'react-redux';
+import {getRandomAllColor} from '../../../components/GetRandomColor';
+import {getDate} from '../../../components/getDate';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -22,7 +26,7 @@ const AddProductScreen = (props) => {
   const [opened, setOpened] = useState(false);
   const [shape, setShape] = useState('Select shape');
   const [productName, setProductName] = useState('');
-  const [productPrice, setProdutPrice] = useState('');
+  const [productPrice, setProductPrice] = useState('');
   const [productRent, setProductRent] = useState('');
   const [productPurpose, setProductPurpose] = useState('');
   const [productLength, setProductLength] = useState('');
@@ -31,7 +35,7 @@ const AddProductScreen = (props) => {
   const [productHeight, setProductHeight] = useState('');
   const [productUnits, setProductUnits] = useState('');
   const [productNameError, setProductNameError] = useState(false);
-  const [productPriceError, setProdutPriceError] = useState(false);
+  const [productPriceError, setProductPriceError] = useState(false);
   const [productRentError, setProductRentError] = useState(false);
   const [productPurposeError, setProductPurposeError] = useState(false);
   const [productLengthError, setProductLengthError] = useState(false);
@@ -47,6 +51,8 @@ const AddProductScreen = (props) => {
   const [newCategoryError, setNewCategoryError] = useState(false);
   const [addingCategoryLoader, setAddingCategoryLoader] = useState(false);
 
+  const dispatch = useDispatch();
+  const {user} = props;
   const cbForCreateNewCAtegory = () => {
     console.log('create new category invoked');
     setShowAddCategoryModal(true);
@@ -56,6 +62,9 @@ const AddProductScreen = (props) => {
     category === '' ? setCategoryError(true) : setCategoryError(false);
     productName === '' ? setProductNameError(true) : setProductNameError(false);
     productRent === '' ? setProductRentError(true) : setProductRentError(false);
+    productPrice === ''
+      ? setProductPriceError(true)
+      : setProductPriceError(false);
     shape === 'Select shape'
       ? setProductShapeError(true)
       : setProductShapeError(false);
@@ -74,29 +83,45 @@ const AddProductScreen = (props) => {
     }
 
     if (productName && productRent && shape && category) {
-      if (shape === 'Circular' && productDia) {
-        console.log('success');
-        setLoading(true);
-        setTimeout(() => {
-          setLoading(false);
-          showToast('Product added successfully!');
-          clearForm();
-          props.navigation.navigate('ProductScreen');
-        }, 3000);
-      } else if (
-        shape === 'Rectangular' &&
-        productLength &&
-        productBreadth &&
-        productHeight
+      const product = {
+        productName: productName,
+        shape: shape,
+        rectangulardimension: {
+          height: productHeight,
+          length: productLength,
+          breadth: productBreadth,
+        },
+        circularDimension: {
+          dia: productDia,
+        },
+        productPrice: productPrice,
+        purposeOfWork: productPurpose,
+        rent: productRent,
+        productInitialColor: getRandomAllColor(),
+        units: productUnits,
+        quantityHistory: {
+          dateOfCreate: getDate(),
+        },
+      };
+      if (
+        (shape === 'Circular' && productDia) ||
+        (shape === 'Rectangular' &&
+          productLength &&
+          productBreadth &&
+          productHeight)
       ) {
-        console.log('success');
         setLoading(true);
-        setTimeout(() => {
-          setLoading(false);
-          clearForm();
-          showToast('Product added successfully!');
-          props.navigation.navigate('ProductScreen');
-        }, 3000);
+        addProduct(product, user.uid)
+          .then((val) => {
+            setLoading(false);
+            showToast('Product added successfully!');
+            clearForm();
+            props.navigation.navigate('ProductScreen');
+          })
+          .catch((err) => {
+            showToast('Something went wrong! please try again later.');
+            setLoading(false);
+          });
       }
     } else {
       showToast('Please Enter required fields!');
@@ -108,6 +133,7 @@ const AddProductScreen = (props) => {
     setProductName('');
     setProductRent('');
     setShape('Select shape');
+    setProductPrice('');
     setProductDia('');
     setProductLength('');
     setProductHeight('');
@@ -329,39 +355,75 @@ const AddProductScreen = (props) => {
       <ScrollView style={{width: '100%'}}>
         <View
           style={{
-            alignItems: 'center',
             marginVertical: 0.03 * height,
+            flexDirection: 'row',
+            width: 0.8 * width,
+            alignSelf: 'center',
+            justifyContent: 'space-between',
           }}>
-          <Text
-            style={{
-              alignSelf: 'flex-start',
-              marginLeft: 0.1 * width,
-              fontSize: 12,
-              marginBottom: 5,
-            }}>
-            Product name
-            <Text style={{color: 'red'}}>
-              {productNameError ? '  * Required.' : ''}
+          <View style={{width: 0.45 * width}}>
+            <Text
+              style={{
+                alignSelf: 'flex-start',
+                fontSize: 12,
+                marginBottom: 5,
+              }}>
+              Product name
+              <Text style={{color: 'red'}}>
+                {productNameError ? '  * Required.' : ''}
+              </Text>
             </Text>
-          </Text>
-          <TextInput
-            onChangeText={(val) => {
-              setProductName(val);
-              val === ''
-                ? setProductNameError(true)
-                : setProductNameError(false);
-            }}
-            value={productName}
-            style={{
-              borderWidth: 1,
-              borderColor: productNameError ? 'red' : 'lightgrey',
-              width: 0.8 * width,
-              borderRadius: 5,
-              paddingLeft: 15,
-            }}
-            placeholder="Enter product name"
-          />
+            <TextInput
+              onChangeText={(val) => {
+                setProductName(val);
+                val === ''
+                  ? setProductNameError(true)
+                  : setProductNameError(false);
+              }}
+              value={productName}
+              style={{
+                borderWidth: 1,
+                borderColor: productNameError ? 'red' : 'lightgrey',
+                width: 0.45 * width,
+                borderRadius: 5,
+                paddingLeft: 15,
+              }}
+              placeholder="Enter product name"
+            />
+          </View>
+          <View style={{width: 0.3 * width}}>
+            <Text
+              style={{
+                alignSelf: 'flex-start',
+                fontSize: 12,
+                marginBottom: 5,
+              }}>
+              Product price
+              <Text style={{color: 'red'}}>
+                {productPriceError ? '  * Req.' : ''}
+              </Text>
+            </Text>
+            <TextInput
+              onChangeText={(val) => {
+                setProductPrice(val);
+                val === ''
+                  ? setProductPriceError(true)
+                  : setProductPriceError(false);
+              }}
+              keyboardType="number-pad"
+              value={productPrice}
+              style={{
+                borderWidth: 1,
+                borderColor: productPriceError ? 'red' : 'lightgrey',
+                width: 0.3 * width,
+                borderRadius: 5,
+                paddingLeft: 15,
+              }}
+              placeholder="Enter price"
+            />
+          </View>
         </View>
+
         <View
           style={{
             flexDirection: 'row',
@@ -555,6 +617,10 @@ const AddProductScreen = (props) => {
               Units
             </Text>
             <TextInput
+              value={productUnits}
+              onChangeText={(val) => {
+                setProductUnits(val);
+              }}
               style={{
                 borderWidth: 1,
                 borderColor: 'lightgrey',
@@ -745,4 +811,10 @@ const AddProductScreen = (props) => {
   );
 };
 
-export default AddProductScreen;
+function mapStateToProps(state) {
+  return {
+    user: state.LoginReducer.user,
+  };
+}
+
+export default connect(mapStateToProps)(AddProductScreen);

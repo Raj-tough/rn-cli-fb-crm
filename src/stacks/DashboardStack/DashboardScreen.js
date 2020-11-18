@@ -134,6 +134,58 @@ const DashboardScreen = ({navigation, user}) => {
                   height: 0.1 * height,
                   width: 0.4 * width,
                   elevation: 5,
+                  borderBottomStartRadius: 10,
+                  borderBottomEndRadius: 10,
+                  borderTopStartRadius: 150,
+                  borderTopEndRadius: 150,
+                  backgroundColor: 'tomato',
+                  alignItems: 'center',
+                }}>
+                <Text style={{fontSize: 25, marginTop: 10, fontWeight: 'bold'}}>
+                  <CountUp isCounting end={536} duration={2} />
+                </Text>
+                <Text style={{marginTop: 5}}>Total opened bills</Text>
+              </Pressable>
+              <Pressable
+                onPress={() => {
+                  navigation.navigate('Bill');
+                  dispatch(changeBillScreenFilter('closed'));
+                }}
+                android_ripple={{color: 'lightgrey'}}
+                style={{
+                  height: 0.1 * height,
+                  width: 0.4 * width,
+                  elevation: 5,
+                  borderBottomStartRadius: 10,
+                  borderBottomEndRadius: 10,
+                  borderTopStartRadius: 150,
+                  borderTopEndRadius: 150,
+                  backgroundColor: 'lightgreen',
+                  alignItems: 'center',
+                }}>
+                <Text style={{fontSize: 25, fontWeight: 'bold', marginTop: 10}}>
+                  <CountUp isCounting end={2305} duration={2} />
+                </Text>
+                <Text style={{marginTop: 5}}>Total closed bills</Text>
+              </Pressable>
+            </View>
+            <View
+              style={{
+                marginTop: 0.03 * height,
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-around',
+              }}>
+              <Pressable
+                onPress={() => {
+                  navigation.navigate('Bill');
+                  dispatch(changeBillScreenFilter('opened'));
+                }}
+                android_ripple={{color: 'lightgrey'}}
+                style={{
+                  height: 0.1 * height,
+                  width: 0.4 * width,
+                  elevation: 5,
                   borderRadius: 10,
                   backgroundColor: 'tomato',
                   alignItems: 'center',

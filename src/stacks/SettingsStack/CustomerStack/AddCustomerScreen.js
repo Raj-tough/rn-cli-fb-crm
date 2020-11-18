@@ -14,6 +14,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {Bars} from 'react-native-loader';
 import {addCustomer} from '../../../services/CustomerServices';
 import {getRandomAllColor} from '../../../components/GetRandomColor';
+import {getDate} from '../../../components/getDate';
 import {connect} from 'react-redux';
 
 const width = Dimensions.get('window').width;
@@ -52,7 +53,7 @@ const AddCustomerScreen = (props) => {
         address: cusAddr.replace(/(\r\n|\n|\r)/gm, ' '),
         proofType: proofType,
         proofIdNumber: cusProodId,
-        doj: new Date(),
+        doj: getDate(),
         profileColor: getRandomAllColor(),
       };
       addCustomer(user.uid, customerData)

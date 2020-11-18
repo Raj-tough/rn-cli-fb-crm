@@ -32,29 +32,37 @@ const BillCard = (props) => {
         onPress={() => setopened(!opened)}
         android_ripple={{color: 'lightgrey'}}
         style={{
-          //   marginTop: 0.01 * height,
-          //   borderWidth: 1,
           borderColor: 'lightgrey',
           width: width,
           height: 0.07 * height,
-          justifyContent: 'center',
-          //   borderRadius: opened ? 0 : 5,
-          //   borderBottomWidth: opened ? 0 : 1,
-          //   borderTopEndRadius: 5,
-          //   borderTopStartRadius: 5,
-          //   elevation: 3,
+          alignItems: 'center',
           borderBottomWidth: 1,
           borderBottomColor: opened ? 'white' : 'lightgrey',
           backgroundColor: 'white',
+          flexDirection: 'row',
         }}>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+        <View
+          style={{
+            height: 0.07 * height,
+            backgroundColor: 'transparent',
+            borderStyle: 'solid',
+            borderRightWidth: 20,
+            borderTopWidth: 20,
+            borderRightColor: 'transparent',
+            borderTopColor: props.data.open ? 'lightgreen' : 'red',
+          }}></View>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            flex: 1,
+          }}>
           <View
             style={{
-              marginLeft: 0.05 * width,
               flexDirection: 'row',
               alignItems: 'center',
             }}>
-            <Text>Cus. name - {'  '}</Text>
+            <Text style={{marginLeft: 0.05 * width}}>Cus. name - {'  '}</Text>
             <Icon name="calendar-outline" size={20}></Icon>
             <Text> 12-08-20</Text>
           </View>
