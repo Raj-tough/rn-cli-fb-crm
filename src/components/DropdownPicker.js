@@ -555,7 +555,9 @@ class DropDownPicker extends React.Component {
               onPress={() => {
                 this.props.cbForCreateNewCategory();
               }}>
-              <Text style={{color: 'dodgerblue'}}>Create new Category</Text>
+              <Text style={{color: 'dodgerblue', paddingBottom: 15}}>
+                Create new Category
+              </Text>
             </TouchableOpacity>
           </View>
           <ScrollView

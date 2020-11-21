@@ -11,7 +11,7 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import ProductCard from './ProductCard';
-import {getAndUpdateProductListDataToState} from '../../../services/ProductService';
+import {getAndUpdateProductListDataToState, getAndUpdateCategoryListDataToState} from '../../../services/ProductService';
 import {connect, useDispatch} from 'react-redux';
 
 const width = Dimensions.get('window').width;
@@ -33,6 +33,7 @@ const ProductScreen = (props) => {
 
   useEffect(() => {
     dispatch(getAndUpdateProductListDataToState(user.uid));
+    dispatch(getAndUpdateCategoryListDataToState(user.uid));
     setTimeout(() => {
       setLoading(false);
     }, 2000);

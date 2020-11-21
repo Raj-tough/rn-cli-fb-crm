@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -13,7 +13,7 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 import DropDownPicker from '../../../components/DropdownPicker';
 import {Bars} from 'react-native-loader';
-import {addProduct} from '../../../services/ProductService';
+import {addProduct, addCategory} from '../../../services/ProductService';
 import {useDispatch, connect} from 'react-redux';
 import {getRandomAllColor} from '../../../components/GetRandomColor';
 import {getDate} from '../../../components/getDate';
@@ -51,8 +51,12 @@ const AddProductScreen = (props) => {
   const [newCategoryError, setNewCategoryError] = useState(false);
   const [addingCategoryLoader, setAddingCategoryLoader] = useState(false);
 
+  const [data, setData] = useState([]);
+
   const dispatch = useDispatch();
-  const {user} = props;
+
+  const {user, categoriesList} = props;
+
   const cbForCreateNewCAtegory = () => {
     console.log('create new category invoked');
     setShowAddCategoryModal(true);
@@ -151,6 +155,12 @@ const AddProductScreen = (props) => {
       setAddingCategoryLoader(true);
       setTimeout(() => {
         clearModalValues();
+        if (data.length === 0) {
+          addCategory(user.uid, [newCategory]);
+        } else {
+          data.push(newCategory);
+          addCategory(user.uid, data);
+        }
         showToast('Category Succefully Added !');
       }, 3000);
     } else {
@@ -165,6 +175,10 @@ const AddProductScreen = (props) => {
     setShowAddCategoryModal(false);
     setNewCategoryError(false);
   };
+  useEffect(() => {
+    setData(categoriesList);
+    console.log(categoriesList);
+  }, [categoriesList]);
 
   return (
     <View style={{flex: 1, alignItems: 'center'}}>
@@ -273,44 +287,7 @@ const AddProductScreen = (props) => {
       ) : null}
       <View>
         <DropDownPicker
-          items={[
-            {
-              label: 'USA',
-              value: 'usa',
-            },
-            {
-              label: 'UK',
-              value: 'uk',
-            },
-            {
-              label: 'France',
-              value: 'france',
-            },
-            {
-              label: 'USA',
-              value: 'usa',
-            },
-            {
-              label: 'UK',
-              value: 'uk',
-            },
-            {
-              label: 'France',
-              value: 'france',
-            },
-            {
-              label: 'USA',
-              value: 'usa',
-            },
-            {
-              label: 'UK',
-              value: 'uk',
-            },
-            {
-              label: 'France',
-              value: 'france',
-            },
-          ]}
+          items={data}
           cbForCreateNewCategory={cbForCreateNewCAtegory}
           placeholder="Select a category"
           searchable={true}
@@ -339,8 +316,8 @@ const AddProductScreen = (props) => {
           itemStyle={{
             justifyContent: 'flex-start',
             paddingLeft: 0.02 * width,
-            borderBottomWidth: 1,
-            borderBottomColor: 'lightgrey',
+            borderTopWidth: 1,
+            borderTopColor: 'lightgrey',
           }}
           dropDownStyle={{
             backgroundColor: '#fafafa',
@@ -814,6 +791,7 @@ const AddProductScreen = (props) => {
 function mapStateToProps(state) {
   return {
     user: state.LoginReducer.user,
+    categoriesList: state.ProductReducer.categoriesList,
   };
 }
 

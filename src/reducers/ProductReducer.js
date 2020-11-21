@@ -1,8 +1,9 @@
-import {STORE_PRODUCTS} from '../constants/constants';
+import {STORE_PRODUCTS, STORE_CATEGORIES} from '../constants/constants';
 
 export default (
   state = {
     productList: {},
+    categoriesList: [],
   },
   action,
 ) => {
@@ -11,6 +12,11 @@ export default (
       return {
         ...state,
         productList: action.data,
+      };
+    case STORE_CATEGORIES:
+      return {
+        ...state,
+        categoriesList: action.data,
       };
     default:
       return state;

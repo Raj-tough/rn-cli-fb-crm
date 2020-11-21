@@ -1,5 +1,8 @@
 import {firebase} from '../firebase/firebase';
-import {storeProductstoState} from '../actions/productAction';
+import {
+  storeProductstoState,
+  storecategoriestoState,
+} from '../actions/productAction';
 
 export const addProduct = (productData, userId) => {
   return new Promise((resolve, reject) => {
@@ -17,6 +20,42 @@ export const addProduct = (productData, userId) => {
         reject();
       });
   });
+};
+
+export const addCategory = (userId, categoryData) => {
+  return new Promise((resolve, reject) => {
+    console.log('category adding');
+    firebase
+      .database()
+      .ref('categories/' + userId)
+      .set(categoryData)
+      .then(() => {
+        resolve();
+      })
+      .catch((error) => {
+        console.log(error);
+        reject();
+      });
+  });
+};
+
+export const getAndUpdateCategoryListDataToState = (userId) => (dispatch) => {
+  console.log('getting categories', userId);
+  firebase
+    .database()
+    .ref('categories/' + userId)
+    .on('value', (data) => {
+      if (!data.val() || data.val === undefined) {
+        dispatch(storecategoriestoState([]));
+      }
+      if (data && data.val()) {
+        let tempData = [];
+        tempData = data.val().map((data) => ({label: data, value: data}));
+        console.log('data format', tempData);
+        dispatch(storecategoriestoState(tempData));
+        // console.log(data.val());
+      }
+    });
 };
 
 export const deleteProductFromDatabase = (productId, userId) => {
