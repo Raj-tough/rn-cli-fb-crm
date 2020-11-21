@@ -6,10 +6,11 @@ import {
 } from '@react-navigation/stack';
 import ProductScreen from './ProductScreen';
 import AddProductScreen from './AddProductScreen';
+import {connect} from 'react-redux';
 
 const ProductStack = createStackNavigator();
 
-const ProductStackScreen = ({navigation}) => {
+const ProductStackScreen = ({navigation, productList}) => {
   return (
     <ProductStack.Navigator
       screenOptions={{
@@ -32,7 +33,10 @@ const ProductStackScreen = ({navigation}) => {
                 }}>
                 <View style={{marginRight: 15}}>
                   <Text>
-                    Total {'  '} - {'  '} 4
+                    Total {'  '} - {'  '}{' '}
+                    {productList && productList
+                      ? Object.keys(productList).length
+                      : 0}
                   </Text>
                 </View>
                 <Pressable
@@ -65,4 +69,10 @@ const ProductStackScreen = ({navigation}) => {
   );
 };
 
-export default ProductStackScreen;
+function mapStateToProps(state) {
+  return {
+    productList: state.ProductReducer.productList,
+  };
+}
+
+export default connect(mapStateToProps)(ProductStackScreen);

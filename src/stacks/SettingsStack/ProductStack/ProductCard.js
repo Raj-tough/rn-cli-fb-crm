@@ -1,14 +1,18 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, Dimensions, Pressable} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import CustomTimelineModal from '../../../components/customTimeline/CustomTimelineModal';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
 const ProductCard = (props) => {
   const [opened, setopened] = useState(false);
+  const [showAddTimelinePopup, setShowAddTimelinePopup] = useState(false);
 
   const {data} = props;
+
+  const hideDialog = () => setShowAddTimelinePopup(false);
 
   return (
     <>
@@ -24,9 +28,43 @@ const ProductCard = (props) => {
           borderBottomColor: opened ? 'white' : 'lightgrey',
           backgroundColor: 'white',
         }}>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-          <View style={{marginLeft: 0.05 * width, flexDirection: 'row'}}>
-            <Text>{data.productName + ' - '}</Text>
+        {showAddTimelinePopup ? (
+          <CustomTimelineModal
+            hideDialog={hideDialog}
+            data={data}></CustomTimelineModal>
+        ) : null}
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}>
+          <View
+            style={{
+              marginLeft: 0.05 * width,
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}>
+            <View>
+              <Text>
+                {data.productName + '   -  total '}
+                <Text>
+                  {data.quantityHistory.total ? data.quantityHistory.total : 0}
+                </Text>
+              </Text>
+            </View>
+            <Pressable
+              style={{
+                marginLeft: 0.0375 * width,
+                height: 40,
+                width: 40,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+              onPress={() => setShowAddTimelinePopup(true)}
+              android_ripple={{color: 'grey', radius: 18}}>
+              <Icon name="analytics-outline" color="dodgerblue" size={25} />
+            </Pressable>
           </View>
           <View style={{marginRight: 0.05 * width}}>
             {opened ? (

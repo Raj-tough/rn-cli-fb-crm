@@ -39,6 +39,23 @@ export const addCategory = (userId, categoryData) => {
   });
 };
 
+export const updateQty = (userId, productId, quantityHistory) => {
+  return new Promise((resolve, reject) => {
+    console.log('quantity updating..');
+    firebase
+      .database()
+      .ref('products/' + userId + '/' + productId + '/quantityHistory')
+      .set(quantityHistory)
+      .then(() => {
+        resolve();
+      })
+      .catch((error) => {
+        console.log(error);
+        reject();
+      });
+  });
+};
+
 export const getAndUpdateCategoryListDataToState = (userId) => (dispatch) => {
   console.log('getting categories', userId);
   firebase

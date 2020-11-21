@@ -11,7 +11,10 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import ProductCard from './ProductCard';
-import {getAndUpdateProductListDataToState, getAndUpdateCategoryListDataToState} from '../../../services/ProductService';
+import {
+  getAndUpdateProductListDataToState,
+  getAndUpdateCategoryListDataToState,
+} from '../../../services/ProductService';
 import {connect, useDispatch} from 'react-redux';
 
 const width = Dimensions.get('window').width;
@@ -25,7 +28,7 @@ const ProductScreen = (props) => {
   const dispatch = useDispatch();
   const {productList, user} = props;
 
-  const renderItem = ({item}) => <ProductCard data={item}/>;
+  const renderItem = ({item}) => <ProductCard data={item} />;
 
   const cbForCreateNewCAtegory = () => {
     console.log('create new category invoked');
@@ -45,7 +48,7 @@ const ProductScreen = (props) => {
       let tempData = [];
       if (productList) {
         Object.keys(productList).map((key) => {
-          tempData.push(productList[key]);
+          tempData.push({...productList[key], productId: key});
         });
         setProduct(tempData);
         setRootData(tempData);
@@ -59,9 +62,11 @@ const ProductScreen = (props) => {
 
   const searchResults = (key) => {
     let searchedData = rootData.filter(
-      (data) => data.name.slice(0, key.length) === key,
+      (data) =>
+        data.productName.slice(0, key.length).toLowerCase() ===
+        key.toLowerCase(),
     );
-    setCusData(searchedData);
+    setProduct(searchedData);
   };
 
   return (

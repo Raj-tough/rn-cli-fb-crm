@@ -56,7 +56,7 @@ const CustomerCard = (props) => {
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <View
             style={{
-              marginLeft: 0.05 * width,
+              marginLeft: 0.01 * width,
               flexDirection: 'row',
               alignItems: 'center',
             }}>

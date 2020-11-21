@@ -106,6 +106,7 @@ const AddProductScreen = (props) => {
         quantityHistory: {
           dateOfCreate: getDate(),
         },
+        categoryName: category,
       };
       if (
         (shape === 'Circular' && productDia) ||
@@ -324,7 +325,7 @@ const AddProductScreen = (props) => {
             elevation: 5,
           }}
           onChangeItem={(item) => {
-            setCategory(item);
+            setCategory(item.label);
             setCategoryError(false);
           }}
         />
