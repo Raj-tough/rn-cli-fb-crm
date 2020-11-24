@@ -171,8 +171,7 @@ const AddBillScreen = ({navigation, productList, customerData}) => {
         </TouchableOpacity>
         <ScrollView showsVerticalScrollIndicator={false} style={{padding: 15}}>
           {items.map((item) => (
-            <View style={{height: 0.1 * height}}>{item.
-              productName}</View>
+            <View style={{height: 0.1 * height}}>{item.productName}</View>
           ))}
         </ScrollView>
       </View>
