@@ -213,6 +213,7 @@ const AddBillScreen = ({navigation, productList, customerData}) => {
             borderColor: 'green',
           }}>
           <Text>Reset</Text>
+          <Text></Text>
         </Pressable>
       </View>
     </View>
