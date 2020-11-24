@@ -25,9 +25,9 @@ const CustomerScreen = (props) => {
   const dispatch = useDispatch();
   const {user, customerData} = props;
 
-  useEffect(() => {
-    dispatch(getCustomers(user.uid));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getCustomers(user.uid));
+  // }, []);
 
   useEffect(() => {
     if (customerData) {

@@ -57,7 +57,7 @@ export const updateQty = (userId, productId, quantityHistory) => {
 };
 
 export const getAndUpdateCategoryListDataToState = (userId) => (dispatch) => {
-  console.log('getting categories', userId);
+  // console.log('getting categories', userId);
   firebase
     .database()
     .ref('categories/' + userId)
@@ -68,7 +68,7 @@ export const getAndUpdateCategoryListDataToState = (userId) => (dispatch) => {
       if (data && data.val()) {
         let tempData = [];
         tempData = data.val().map((data) => ({label: data, value: data}));
-        console.log('data format', tempData);
+        // console.log('data format', tempData);
         dispatch(storecategoriestoState(tempData));
         // console.log(data.val());
       }

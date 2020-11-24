@@ -34,16 +34,15 @@ const ProductScreen = (props) => {
     console.log('create new category invoked');
   };
 
-  useEffect(() => {
-    dispatch(getAndUpdateProductListDataToState(user.uid));
-    dispatch(getAndUpdateCategoryListDataToState(user.uid));
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getAndUpdateProductListDataToState(user.uid));
+  //   dispatch(getAndUpdateCategoryListDataToState(user.uid));
+  //   setTimeout(() => {
+  //     setLoading(false);
+  //   }, 2000);
+  // }, []);
 
   useEffect(() => {
-    // console.log('list', productList);
     if (productList) {
       let tempData = [];
       if (productList) {
@@ -53,7 +52,7 @@ const ProductScreen = (props) => {
         setProduct(tempData);
         setRootData(tempData);
         setLoading(false);
-        console.log('temp', tempData);
+        // console.log('temp', tempData);
       }
     } else {
       setLoading(false);

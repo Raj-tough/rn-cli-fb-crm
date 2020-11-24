@@ -13,6 +13,7 @@ export default (
     user: null,
     wrongCredentials: false,
     verifying: false,
+    verified: false,
   },
   action,
 ) => {
@@ -28,6 +29,7 @@ export default (
       return {
         ...state,
         loggedIn: false,
+        verified: false,
       };
     case WRONG_CREDENTIALS:
       return {
@@ -50,6 +52,7 @@ export default (
       return {
         ...state,
         verifying: false,
+        verified: true,
       };
     default:
       return {

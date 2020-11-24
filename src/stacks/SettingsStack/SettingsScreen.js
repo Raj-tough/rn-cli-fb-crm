@@ -8,7 +8,7 @@ import {useDispatch} from 'react-redux';
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
-const SettingsScreen = ({navigation}) => {
+const SettingsScreen = ({navigation, route}) => {
   const dispatch = useDispatch();
   return (
     <View style={{flex: 1, alignItems: 'center', backgroundColor: 'white'}}>
@@ -52,7 +52,6 @@ const SettingsScreen = ({navigation}) => {
         <Pressable
           onPress={() => {
             navigation.navigate('ProductStackScreen');
-            console.log('sdas');
           }}
           android_ripple={{color: 'lightgrey'}}
           style={styles.outerBox}>

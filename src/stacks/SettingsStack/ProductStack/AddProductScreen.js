@@ -178,7 +178,7 @@ const AddProductScreen = (props) => {
   };
   useEffect(() => {
     setData(categoriesList);
-    console.log(categoriesList);
+    // console.log(categoriesList);
   }, [categoriesList]);
 
   return (

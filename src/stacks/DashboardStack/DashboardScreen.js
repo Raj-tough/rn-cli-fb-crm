@@ -137,7 +137,7 @@ const DashboardScreen = ({navigation, user}) => {
                   borderBottomStartRadius: 10,
                   borderBottomEndRadius: 10,
                   borderTopStartRadius: 150,
-                  borderTopEndRadius: 150,
+                  borderTopEndRadius: 10,
                   backgroundColor: 'tomato',
                   alignItems: 'center',
                 }}>
@@ -158,7 +158,7 @@ const DashboardScreen = ({navigation, user}) => {
                   elevation: 5,
                   borderBottomStartRadius: 10,
                   borderBottomEndRadius: 10,
-                  borderTopStartRadius: 150,
+                  borderTopStartRadius: 10,
                   borderTopEndRadius: 150,
                   backgroundColor: 'lightgreen',
                   alignItems: 'center',

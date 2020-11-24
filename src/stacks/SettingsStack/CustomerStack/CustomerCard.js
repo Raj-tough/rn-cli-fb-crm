@@ -79,7 +79,7 @@ const CustomerCard = (props) => {
               <Text style={{fontWeight: 'bold', fontSize: 17}}>
                 {props.data.name ? props.data.name + '  -  ' : ' '}
               </Text>
-              <TouchableOpacity onPress={() => dial('8870347755')}>
+              <TouchableOpacity onPress={() => dial(props.data.phno)}>
                 <Text style={{color: 'dodgerblue'}}>
                   {props.data.phno ? props.data.phno : ''}
                 </Text>
