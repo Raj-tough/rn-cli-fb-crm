@@ -16,6 +16,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
 import CustomDropDownPicker from '../../components/CustomDropdownPicker';
 import AddItemsModal from './AddItemsModal';
+import Items from './Items';
+import {getDate} from '../../components/getDate';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -27,17 +29,25 @@ const AddBillScreen = ({navigation, productList, customerData}) => {
   const [proofType, setProofType] = useState('Select proof type');
   const [customers, setCustomers] = useState([]);
   const [selectCustomer, setSelectCustomer] = useState('');
+  const [cusId, setCusId] = useState('');
   const [selectCustomerError, setSelectCustomerError] = useState(false);
   const [products, setProducts] = useState([]);
   const [selectProduct, setSelectProduct] = useState('');
   const [selectProductError, setSelectProductError] = useState('');
 
+  const [address, setAddress] = useState('');
+  const [addressError, setAddressError] = useState(false);
+
+  const [totalRentPerDay, setTotalRentPerDay] = useState(0);
+  const [advancePaid, setAdvancePaid] = useState(0);
+
   const [showAddItemsModal, setShowAddItemsModal] = useState(false);
 
   const [items, setItems] = useState([]);
+  const [itemError, setItemError] = useState(false);
 
   const cbForCreateNewCAtegory = () => {
-    console.log('create new category invoked');
+    // console.log('create new category invoked');
   };
 
   useEffect(() => {
@@ -62,7 +72,7 @@ const AddBillScreen = ({navigation, productList, customerData}) => {
       });
     });
     setProducts(tempProducts);
-    console.log('products in bill screen', tempProducts);
+    // console.log('products in bill screen', tempProducts);
   }, [productList, customerData]);
 
   const navigateTo = (mode) => {
@@ -79,10 +89,16 @@ const AddBillScreen = ({navigation, productList, customerData}) => {
   };
 
   const addItem = (billItem) => {
+    setItemError(false);
     let tempData = [...items];
 
     tempData.push(billItem);
-    console.log('items', tempData);
+    // console.log('items', tempData);
+    setAdvancePaid(parseInt(advancePaid) + parseInt(billItem.advance));
+    setTotalRentPerDay(
+      parseInt(totalRentPerDay) +
+        parseInt(billItem.rent) * parseInt(billItem.qty),
+    );
     setItems(tempData);
   };
 
@@ -90,6 +106,35 @@ const AddBillScreen = ({navigation, productList, customerData}) => {
     ToastAndroid.show(msg, ToastAndroid.SHORT);
   };
 
+  const onSubmitButton = () => {
+    // console.log(selectCustomer);
+    selectCustomer === ''
+      ? setSelectCustomerError(true)
+      : setSelectCustomerError(false);
+    address === '' ? setAddressError(true) : setAddressError(false);
+    items.length < 1 ? setItemError(true) : setItemError(false);
+    if (selectCustomer && items.length >= 1 && address) {
+    } else {
+      showToast('Please Fill the required Fields / add items.');
+    }
+    const tempBill = {
+      items: items,
+      address: address,
+      customerName: selectCustomer,
+      customerId: cusId,
+      status: 'open',
+      createdAt: getDate(),
+    };
+    console.log(tempBill);
+  };
+
+  const resetButton = () => {
+    setItems([]);
+    setSelectCustomer('');
+    setAddress('');
+    setSelectCustomerError(false);
+    setAddressError(false);
+  };
   return (
     <View style={{flex: 1, alignItems: 'center'}}>
       {showAddItemsModal ? (
@@ -125,6 +170,7 @@ const AddBillScreen = ({navigation, productList, customerData}) => {
           searchablePlaceholder="Search customer"
           searchablePlaceholderTextColor="gray"
           seachableStyle={{}}
+          reset={selectCustomer}
           searchableError={() => (
             <View style={{alignItems: 'center'}}>
               <View>
@@ -157,22 +203,119 @@ const AddBillScreen = ({navigation, productList, customerData}) => {
           onChangeItem={(item) => {
             setSelectCustomer(item.label);
             setSelectCustomerError(false);
+            setCusId(item.cusId);
           }}
           onChangeItemObject={(item) => {
-            console.log(item);
+            // console.log(item);
           }}
         />
+        <View
+          style={{
+            alignItems: 'center',
+            marginTop: 0.02 * height,
+            alignSelf: 'center',
+          }}>
+          <Text
+            style={{
+              alignSelf: 'flex-start',
+              fontSize: 12,
+              marginBottom: 5,
+            }}>
+            address
+          </Text>
+          <TextInput
+            value={address}
+            onChangeText={(val) => {
+              setAddress(val);
+              if (val === '') {
+                setAddressError(true);
+              } else {
+                setAddressError(false);
+              }
+            }}
+            multiline
+            style={{
+              borderWidth: 1,
+              borderColor: addressError ? 'red' : 'lightgrey',
+              width: 0.9 * width,
+              borderRadius: 5,
+              paddingLeft: 15,
+            }}
+            placeholder="Enter address"
+          />
+        </View>
         <TouchableOpacity
           onPress={() => {
             setShowAddItemsModal(true);
           }}
           style={{alignSelf: 'center', marginTop: 0.017 * height}}>
-          <Text style={{color: 'dodgerblue'}}>Add items</Text>
+          <Text style={{color: itemError ? 'red' : 'dodgerblue'}}>
+            Add items
+          </Text>
         </TouchableOpacity>
         <ScrollView showsVerticalScrollIndicator={false} style={{padding: 15}}>
-          {items.map((item) => (
-            <View style={{height: 0.1 * height}}>{item.productName}</View>
-          ))}
+          {items.length >= 1 ? (
+            <View style={{flexDirection: 'row', marginBottom: 0.017 * height}}>
+              <View
+                style={{
+                  width: 0.1 * width,
+                  alignItems: 'center',
+                }}>
+                <Text style={{fontWeight: 'bold'}}>S.no</Text>
+              </View>
+              <View
+                style={{
+                  width: 0.27 * width,
+                  alignItems: 'center',
+                }}>
+                <Text style={{fontWeight: 'bold'}}>Name</Text>
+              </View>
+              <View
+                style={{
+                  width: 0.1 * width,
+
+                  alignItems: 'center',
+                }}>
+                <Text style={{fontWeight: 'bold'}}>Qty.</Text>
+              </View>
+              <View
+                style={{
+                  width: 0.13 * width,
+
+                  alignItems: 'center',
+                }}>
+                <Text style={{fontWeight: 'bold'}}>Rent</Text>
+              </View>
+              <View
+                style={{
+                  width: 0.15 * width,
+
+                  alignItems: 'center',
+                }}>
+                <Text style={{fontWeight: 'bold'}}>Rent/day</Text>
+              </View>
+            </View>
+          ) : (
+            <View>
+              <Text>No items added</Text>
+            </View>
+          )}
+
+          {items.map((item, index) => {
+            return <Items data={item} index={index} />;
+          })}
+          {items.length >= 1 ? (
+            <View style={{marginTop: 0.05 * height, alignItems: 'center'}}>
+              <View style={{flexDirection: 'row'}}>
+                <Text style={{fontSize: 16}}>Total rent / day -</Text>
+                <Text style={{fontWeight: 'bold'}}>{totalRentPerDay} ₹</Text>
+              </View>
+              <View style={{flexDirection: 'row'}}>
+                <Text style={{fontSize: 16}}>Advance paid - </Text>
+                <Text style={{fontWeight: 'bold'}}>{advancePaid} ₹</Text>
+              </View>
+            </View>
+          ) : null}
         </ScrollView>
       </View>
       <View
@@ -185,6 +328,7 @@ const AddBillScreen = ({navigation, productList, customerData}) => {
           marginTop: 0.03 * height,
         }}>
         <Pressable
+          onPress={onSubmitButton}
           android_ripple={{color: 'lightgrey'}}
           style={{
             alignSelf: 'center',
@@ -200,6 +344,7 @@ const AddBillScreen = ({navigation, productList, customerData}) => {
           <Text>Submit</Text>
         </Pressable>
         <Pressable
+          onPress={resetButton}
           android_ripple={{color: 'lightgrey'}}
           style={{
             alignSelf: 'center',

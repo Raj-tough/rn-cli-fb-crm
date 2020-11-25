@@ -420,7 +420,18 @@ class CustomDropDownPicker extends React.Component {
     let len2 = label.length;
     return label + (len !== len2 ? '...' : '');
   }
-
+  // componentDidUpdate(prevProps) {
+  //   console.log('sasd./////');
+  //   if (prevProps.reset !== this.props.reset) {
+  //     console.log('exec.....');
+  //     // this.state.choice.label === null;
+  //     this.setState({
+  //       choice: {
+  //         label: null,
+  //       },
+  //     });
+  //   }
+  // }
   render() {
     this.props.controller(this);
     const {multiple, disabled} = this.state.props;
