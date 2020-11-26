@@ -17,9 +17,12 @@ import {connect} from 'react-redux';
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
-const BillScreen = ({route, navigation, filterName}) => {
+const BillScreen = (props) => {
   const [loading, setLoading] = useState(true);
   const [selectedFilter, setSelectedFilter] = useState('all');
+  const [bills, setBills] = useState([]);
+
+  const {route, navigation, filterName, billData} = props;
 
   const data = [
     {id: 1},
@@ -39,19 +42,29 @@ const BillScreen = ({route, navigation, filterName}) => {
     {id: 16},
     {id: 17},
   ];
-  const renderItem = ({item}) => <BillCard data={item} />;
+
   useEffect(() => {
-    setTimeout(() => {
+    let tempBillData = [];
+    if (billData[0]) {
+      Object.keys(billData[0]).map((key) => {
+        tempBillData.push({...billData[0][key], billId: key});
+      });
+      setBills(tempBillData);
       setLoading(false);
-    }, 2000);
-  }, []);
+    }
+  }, [billData]);
+
   useEffect(() => {
     setSelectedFilter(filterName);
   }, [filterName]);
+
   useEffect(() => {
     console.log('changing data');
   }, [selectedFilter]);
-  console.log('routing', route);
+
+  // console.log('bill data', billData);
+
+  const renderItem = ({item}) => <BillCard data={item} />;
   return (
     <View style={{flex: 1, alignItems: 'center'}}>
       {/* <Text>{opened ? opened : ''}</Text> */}
@@ -281,7 +294,7 @@ const BillScreen = ({route, navigation, filterName}) => {
         ) : (
           <FlatList
             showsVerticalScrollIndicator={false}
-            data={data}
+            data={bills}
             renderItem={renderItem}
             keyExtractor={(item) => item.id}
           />
@@ -294,6 +307,7 @@ const BillScreen = ({route, navigation, filterName}) => {
 function mapStateToProps(state) {
   return {
     filterName: state.FilterReducer.filterName,
+    billData: state.BillReducer.billData,
   };
 }
 export default connect(mapStateToProps)(BillScreen);

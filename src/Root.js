@@ -6,7 +6,6 @@
  * @flow strict-local
  */
 
- 
 import React, {useEffect} from 'react';
 import {StyleSheet, View} from 'react-native';
 import SplashScreen from 'react-native-splash-screen';
@@ -19,6 +18,7 @@ import {
   getAndUpdateCategoryListDataToState,
   getAndUpdateProductListDataToState,
 } from './services/ProductService';
+import {getBills} from './services/BillServices';
 import {Bars} from 'react-native-loader';
 
 const Root = (props) => {
@@ -34,6 +34,7 @@ const Root = (props) => {
       dispatch(getCustomers(user.uid));
       dispatch(getAndUpdateProductListDataToState(user.uid));
       dispatch(getAndUpdateCategoryListDataToState(user.uid));
+      dispatch(getBills(user.uid));
     }
   }, [verified, user]);
   if (verifying) {

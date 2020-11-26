@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {getRandomAllColor} from '../../components/GetRandomColor';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -16,6 +17,7 @@ const height = Dimensions.get('window').height;
 const BillCard = (props) => {
   const [opened, setopened] = useState(false);
 
+  const {data} = props;
   const dial = (contact) => {
     let phoneNumber = '';
     if (Platform.OS === 'android') {
@@ -25,7 +27,7 @@ const BillCard = (props) => {
     }
     Linking.openURL(phoneNumber);
   };
-
+  console.log(data);
   return (
     <>
       <Pressable
@@ -62,8 +64,14 @@ const BillCard = (props) => {
               flexDirection: 'row',
               alignItems: 'center',
             }}>
-            <Text style={{marginLeft: 0.05 * width}}>Cus. name - {'  '}</Text>
-            <Icon name="calendar-outline" size={20}></Icon>
+            <Text style={{marginHorizontal: 0.01 * width}}>
+              {data.customerName}
+            </Text>
+            <Icon
+              style={{marginHorizontal: 0.01 * width}}
+              name="calendar-outline"
+              color={'purple'}
+              size={20}></Icon>
             <Text> 12-08-20</Text>
           </View>
           <View style={{marginRight: 0.05 * width}}>

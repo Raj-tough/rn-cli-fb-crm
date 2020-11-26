@@ -18,11 +18,13 @@ import CustomDropDownPicker from '../../components/CustomDropdownPicker';
 import AddItemsModal from './AddItemsModal';
 import Items from './Items';
 import {getDate} from '../../components/getDate';
+import {Bars} from 'react-native-loader';
+import {addBill} from '../../services/BillServices';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
-const AddBillScreen = ({navigation, productList, customerData}) => {
+const AddBillScreen = ({navigation, productList, customerData, user}) => {
   // console.log('route', route);
   const [category, setCategory] = useState('');
   const [opened, setOpened] = useState(false);
@@ -45,6 +47,8 @@ const AddBillScreen = ({navigation, productList, customerData}) => {
 
   const [items, setItems] = useState([]);
   const [itemError, setItemError] = useState(false);
+
+  const [loading, setLoading] = useState(false);
 
   const cbForCreateNewCAtegory = () => {
     // console.log('create new category invoked');
@@ -108,6 +112,7 @@ const AddBillScreen = ({navigation, productList, customerData}) => {
 
   const onSubmitButton = () => {
     // console.log(selectCustomer);
+    setLoading(true);
     selectCustomer === ''
       ? setSelectCustomerError(true)
       : setSelectCustomerError(false);
@@ -125,7 +130,11 @@ const AddBillScreen = ({navigation, productList, customerData}) => {
       status: 'open',
       createdAt: getDate(),
     };
-    console.log(tempBill);
+    addBill(user.uid, tempBill);
+    resetButton();
+    showToast('Bill created successfully');
+    navigation.navigate('BillScreen');
+    setLoading(false);
   };
 
   const resetButton = () => {
@@ -144,6 +153,20 @@ const AddBillScreen = ({navigation, productList, customerData}) => {
           navigation={navigation}
           addItem={addItem}
         />
+      ) : null}
+      {loading ? (
+        <Modal transparent={true}>
+          <View
+            style={{
+              height: height,
+              width: width,
+              backgroundColor: 'rgba(0,0,0,0.3)',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+            <Bars size={10} color="#1e90ff" />
+          </View>
+        </Modal>
       ) : null}
       <View
         style={{
@@ -368,6 +391,7 @@ function mapStateToProps(state) {
   return {
     productList: state.ProductReducer.productList,
     customerData: state.CustomerReducer.customerData,
+    user: state.LoginReducer.user,
   };
 }
 export default connect(mapStateToProps)(AddBillScreen);

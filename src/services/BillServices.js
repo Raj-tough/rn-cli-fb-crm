@@ -13,8 +13,6 @@ export const getBills = (userId) => (dispatch) => {
         // console.log('bill', typeof firstBill);
         dispatch(storeBillsToState(firstBill));
       } else {
-        console.log('nothing');
-        console.log('getservice', typeof data.val());
         dispatch(storeBillsToState(data.val()));
       }
     });
@@ -23,7 +21,7 @@ export const getBills = (userId) => (dispatch) => {
 export const addBill = (userId, bill) => {
   console.log('Bill is adding');
   return new Promise((resolve, reject) => {
-    if (customer !== null) {
+    if (bill !== null) {
       firebase
         .database()
         .ref()
