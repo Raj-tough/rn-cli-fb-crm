@@ -24,7 +24,13 @@ import {addBill} from '../../services/BillServices';
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
-const AddBillScreen = ({navigation, productList, customerData, user}) => {
+const AddBillScreen = ({
+  navigation,
+  productList,
+  customerData,
+  user,
+  billCount,
+}) => {
   // console.log('route', route);
   const [category, setCategory] = useState('');
   const [opened, setOpened] = useState(false);
@@ -129,6 +135,7 @@ const AddBillScreen = ({navigation, productList, customerData, user}) => {
       customerId: cusId,
       status: 'open',
       createdAt: getDate(),
+      billNo: billCount ? parseInt(billCount) + 1 : 1,
     };
     addBill(user.uid, tempBill);
     resetButton();
@@ -392,6 +399,7 @@ function mapStateToProps(state) {
     productList: state.ProductReducer.productList,
     customerData: state.CustomerReducer.customerData,
     user: state.LoginReducer.user,
+    billCount: state.BillReducer.billCount,
   };
 }
 export default connect(mapStateToProps)(AddBillScreen);

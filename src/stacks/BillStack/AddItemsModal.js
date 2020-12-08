@@ -109,6 +109,7 @@ const AddItemsModal = (props) => {
 
   return (
     <Modal
+      animationType="slide"
       transparent={true}
       onRequestClose={() => {
         props.setShowAddItemsModal(false);

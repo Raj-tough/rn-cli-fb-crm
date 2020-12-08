@@ -12,7 +12,8 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import BillCard from './BillCard';
 import DatePicker from 'react-native-date-ranges-picker';
-import {connect} from 'react-redux';
+import {connect, useDispatch} from 'react-redux';
+import {updateBillCount} from '../../actions/BillsAction';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -21,6 +22,8 @@ const BillScreen = (props) => {
   const [loading, setLoading] = useState(true);
   const [selectedFilter, setSelectedFilter] = useState('all');
   const [bills, setBills] = useState([]);
+
+  const dispatch = useDispatch();
 
   const {route, navigation, filterName, billData} = props;
 
@@ -50,6 +53,7 @@ const BillScreen = (props) => {
         tempBillData.push({...billData[0][key], billId: key});
       });
       setBills(tempBillData);
+      dispatch(updateBillCount(tempBillData.length));
       setLoading(false);
     }
   }, [billData]);

@@ -1,4 +1,4 @@
-import {STORE_BILLS} from '../constants/constants';
+import {STORE_BILLS, UPDATE_BILL_COUNT} from '../constants/constants';
 
 export const storeBillsToState = (bills) => {
   return {
@@ -6,3 +6,10 @@ export const storeBillsToState = (bills) => {
     data: bills,
   };
 };
+
+export const updateBillCount = (count) => {
+  return {
+    type : UPDATE_BILL_COUNT,
+    count : count
+  }
+}
